@@ -138,18 +138,18 @@ public class MainPage extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.populateDBMenu:
-                AddSampleData addSampleData = new AddSampleData();
-                addSampleData.populate(getApplicationContext());
-                updateViews();
-                Toast.makeText(this, "LocalDB Populated", Toast.LENGTH_SHORT);
-                return true;
-            case R.id.resetDBMenu:
-                db.clearAllTables();
-                updateViews();
-                Toast.makeText(this, "LocalDB Reset", Toast.LENGTH_SHORT);
-                return true;
+        int itemId = item.getItemId();
+        if (itemId == R.id.populateDBMenu) {
+            AddSampleData addSampleData = new AddSampleData();
+            addSampleData.populate(getApplicationContext());
+            updateViews();
+            Toast.makeText(this, "Congrats! DB Populated", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (itemId == R.id.resetDBMenu) {
+            db.clearAllTables();
+            updateViews();
+            Toast.makeText(this, "DB successfully Reset", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

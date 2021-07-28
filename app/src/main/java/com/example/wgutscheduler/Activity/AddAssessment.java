@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.room.Database;
 
@@ -53,7 +54,7 @@ public class AddAssessment extends AppCompatActivity implements DatePickerDialog
     String name;
     String status;
     String type;
-    Switch aAlert;
+    SwitchCompat aAlert;
     TextView addAssessmentDueDate;
     private TextView datePickerView;
 

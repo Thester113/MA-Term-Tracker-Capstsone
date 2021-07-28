@@ -75,7 +75,7 @@ public class AddTerm extends AppCompatActivity implements DatePickerDialog.OnDat
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (termAdded == true) {
+                if (termAdded) {
                     Intent intent = new Intent(getApplicationContext(), TermList.class);
                     startActivity(intent);
                 }

@@ -104,15 +104,13 @@ public class TermDetails extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.tdEditTermFAB:
-                Intent intent = new Intent(getApplicationContext(), EditTerm.class);
-                intent.putExtra("termID", termID);
-                intent.putExtra("courseList", allCourses.size());
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.tdEditTermFAB) {
+            Intent intent = new Intent(getApplicationContext(), EditTerm.class);
+            intent.putExtra("termID", termID);
+            intent.putExtra("courseList", allCourses.size());
+            startActivity(intent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

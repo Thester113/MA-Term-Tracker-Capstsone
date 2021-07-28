@@ -158,17 +158,15 @@ public class CourseDetails extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.tdEditCourseIC:
-                Intent intent = new Intent(getApplicationContext(), EditCourse.class);
-                intent.putExtra("termID", termID);
-                intent.putExtra("courseID", courseID);
-                intent.putExtra("mentorList", allMentors.size());
-                intent.putExtra("assessmentList", allAssessments.size());
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.tdEditCourseIC) {
+            Intent intent = new Intent(getApplicationContext(), EditCourse.class);
+            intent.putExtra("termID", termID);
+            intent.putExtra("courseID", courseID);
+            intent.putExtra("mentorList", allMentors.size());
+            intent.putExtra("assessmentList", allAssessments.size());
+            startActivity(intent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -278,7 +278,7 @@ public class AddCourse extends AppCompatActivity implements DatePickerDialog.OnD
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (courseAdded == true) {
+                if (courseAdded) {
                     Intent intent = new Intent(getApplicationContext(), TermDetails.class);
                     intent.putExtra("termID", termID);
                     startActivity(intent);

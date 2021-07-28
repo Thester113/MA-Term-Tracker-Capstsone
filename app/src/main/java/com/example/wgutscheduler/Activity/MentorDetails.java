@@ -84,16 +84,14 @@ public class MentorDetails extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.deleteMentorIC:
-                deleteMentor();
-                Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
-                intent.putExtra("termID", termID);
-                intent.putExtra("courseID", courseID);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.deleteMentorIC) {
+            deleteMentor();
+            Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
+            intent.putExtra("termID", termID);
+            intent.putExtra("courseID", courseID);
+            startActivity(intent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

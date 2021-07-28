@@ -42,7 +42,7 @@ public class AddMentor extends AppCompatActivity {
             public void onClick(View view) {
                 addMentor();
 
-                if (mentorAdded == true) {
+                if (mentorAdded) {
                     Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
                     intent.putExtra("termID", termID);
                     intent.putExtra("courseID", courseID);

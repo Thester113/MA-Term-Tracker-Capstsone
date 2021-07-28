@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -63,7 +64,7 @@ public class EditCourse extends AppCompatActivity implements DatePickerDialog.On
     String name;
     String phone;
     String statusV;
-    Switch editCourseAlert;
+    SwitchCompat editCourseAlert;
     TextView editECourseTerm;
     TextView editSCourseTerm;
     private TextView datePickerView;
@@ -115,7 +116,7 @@ public class EditCourse extends AppCompatActivity implements DatePickerDialog.On
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (courseUpdated == true) {
+                if (courseUpdated) {
                     Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
                     intent.putExtra("termID", termID);
                     intent.putExtra("courseID", courseID);
@@ -312,16 +313,13 @@ public class EditCourse extends AppCompatActivity implements DatePickerDialog.On
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResult) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResult);
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_SMS: {
-                if (grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phone, null, message, null, null);
-                    Toast.makeText(getApplicationContext(), "SMS message sent successfully", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "SMS message failed, please try again", Toast.LENGTH_LONG).show();
-                    return;
-                }
+        if (requestCode == PERMISSIONS_REQUEST_SMS) {
+            if (grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage(phone, null, message, null, null);
+                Toast.makeText(getApplicationContext(), "SMS message sent successfully", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "SMS message failed, please try again", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -334,15 +332,13 @@ public class EditCourse extends AppCompatActivity implements DatePickerDialog.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.deleteCourseIC:
-                deleteCourse();
-                Intent intent = new Intent(getApplicationContext(), TermList.class);
-                intent.putExtra("termID", termID);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.deleteCourseIC) {
+            deleteCourse();
+            Intent intent = new Intent(getApplicationContext(), TermList.class);
+            intent.putExtra("termID", termID);
+            startActivity(intent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

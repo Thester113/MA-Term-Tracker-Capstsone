@@ -240,16 +240,14 @@ public class EditAssessment extends AppCompatActivity implements DatePickerDialo
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.deleteAssessmentIC:
-                deleteAssessment();
-                Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
-                intent.putExtra("termID", termID);
-                intent.putExtra("courseID", courseID);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.deleteAssessmentIC) {
+            deleteAssessment();
+            Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
+            intent.putExtra("termID", termID);
+            intent.putExtra("courseID", courseID);
+            startActivity(intent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

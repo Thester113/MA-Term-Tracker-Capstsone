@@ -213,15 +213,13 @@ public class EditTerm extends AppCompatActivity implements DatePickerDialog.OnDa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.deleteTermIC:
-                deleteTerm();
-                Intent intent = new Intent(getApplicationContext(), TermList.class);
-                intent.putExtra("termID", termID);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.deleteTermIC) {
+            deleteTerm();
+            Intent intent = new Intent(getApplicationContext(), TermList.class);
+            intent.putExtra("termID", termID);
+            startActivity(intent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }
