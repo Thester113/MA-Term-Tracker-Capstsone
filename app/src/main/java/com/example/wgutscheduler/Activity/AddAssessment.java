@@ -194,7 +194,7 @@ public class AddAssessment extends AppCompatActivity implements DatePickerDialog
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (assessmentAdded == true) {
+                if (assessmentAdded) {
                     Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
                     intent.putExtra("termID", termID);
                     intent.putExtra("courseID", courseID);

@@ -96,17 +96,23 @@ public class EditTerm extends AppCompatActivity implements DatePickerDialog.OnDa
     }
 
     private void setValues() {
-        Term term = new Term();
-        term = db.termDao().getTerm(termID);
-        String name = term.getTerm_name();
-        String status = term.getTerm_status();
-        String sDate = DateFormat.format("MM/dd/yyyy", term.getTerm_start()).toString();
-        String eDate = DateFormat.format("MM/dd/yyyy", term.getTerm_end()).toString();
+        try{
+            Term term = new Term();
+            term = db.termDao().getTerm(termID);
+            String name = term.getTerm_name();
+            String status = term.getTerm_status();
+            String startDate = DateFormat.format("MM/dd/yyyy", term.getTerm_start()).toString();
+            String endDate = DateFormat.format("MM/dd/yyyy", term.getTerm_end()).toString();
 
-        editTermName.setText(name);
-        editTermStatus.setSelection(getIndex(editTermStatus, status));
-        editSDateTerm.setText(sDate);
-        editEDateTerm.setText(eDate);
+            editTermName.setText(name);
+            editTermStatus.setSelection(getIndex(editTermStatus, status));
+            editSDateTerm.setText(startDate);
+            editEDateTerm.setText(endDate);
+
+        } catch(RuntimeException e) {
+            System.out.println("Caught RuntimeException");
+        }
+
     }
 
     private int getIndex(Spinner spinner, String myString) {

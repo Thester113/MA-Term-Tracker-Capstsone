@@ -20,10 +20,13 @@ public class AddSampleData extends AppCompatActivity {
     Term tempTerm1 = new Term();
     Term tempTerm2 = new Term();
     Term tempTerm3 = new Term();
+    Term tempTerm4 = new Term();
 
     Course tempCourse1 = new Course();
     Course tempCourse2 = new Course();
     Course tempCourse3 = new Course();
+    Course tempCourse4 = new Course();
+
 
     Assessment tempAssessment1 = new Assessment();
 
@@ -40,7 +43,7 @@ public class AddSampleData extends AppCompatActivity {
             insertCourseMentors();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(LOG_TAG, "Populate LocalDB failed");
+            Log.d(LOG_TAG, "Populate DB failed");
         }
     }
 
@@ -52,7 +55,7 @@ public class AddSampleData extends AppCompatActivity {
         end = Calendar.getInstance();
         start.add(Calendar.MONTH, -2);
         end.add(Calendar.MONTH, 1);
-        tempTerm1.setTerm_name("Fall 2020");
+        tempTerm1.setTerm_name("Spring 2021");
         tempTerm1.setTerm_start(start.getTime());
         tempTerm1.setTerm_status("Completed");
         tempTerm1.setTerm_end(end.getTime());
@@ -61,7 +64,7 @@ public class AddSampleData extends AppCompatActivity {
         end = Calendar.getInstance();
         start.add(Calendar.MONTH, 2);
         end.add(Calendar.MONTH, 5);
-        tempTerm2.setTerm_name("Spring 2021");
+        tempTerm2.setTerm_name("Fall 2021");
         tempTerm2.setTerm_start(start.getTime());
         tempTerm2.setTerm_status("In-Progress");
         tempTerm2.setTerm_end(end.getTime());
@@ -70,12 +73,21 @@ public class AddSampleData extends AppCompatActivity {
         end = Calendar.getInstance();
         start.add(Calendar.MONTH, 6);
         end.add(Calendar.MONTH, 9);
-        tempTerm3.setTerm_name("Summer 2021");
+        tempTerm3.setTerm_name("Spring 2022");
         tempTerm3.setTerm_start(start.getTime());
         tempTerm3.setTerm_status("Not Enrolled");
         tempTerm3.setTerm_end(end.getTime());
 
-        db.termDao().insertAllTerms(tempTerm1, tempTerm2, tempTerm3);
+        start = Calendar.getInstance();
+        end = Calendar.getInstance();
+        start.add(Calendar.MONTH, 1);
+        end.add(Calendar.MONTH, 7);
+        tempTerm4.setTerm_name("Summer 2022");
+        tempTerm4.setTerm_start(start.getTime());
+        tempTerm4.setTerm_status("Not Enrolled");
+        tempTerm4.setTerm_end(end.getTime());
+
+        db.termDao().insertAllTerms(tempTerm1, tempTerm2, tempTerm3, tempTerm4);
     }
 
     private void insertCourses() {
@@ -92,7 +104,7 @@ public class AddSampleData extends AppCompatActivity {
         tempCourse1.setCourse_start(start.getTime());
         tempCourse1.setCourse_end(end.getTime());
         tempCourse1.setCourse_status("Pending");
-        tempCourse1.setCourse_notes("Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        tempCourse1.setCourse_notes("Please Add A Note");
         tempCourse1.setTerm_id_fk(TermList.get(0).getTerm_id());
 
         start = Calendar.getInstance();
@@ -103,7 +115,7 @@ public class AddSampleData extends AppCompatActivity {
         tempCourse2.setCourse_start(start.getTime());
         tempCourse2.setCourse_end(end.getTime());
         tempCourse2.setCourse_status("Completed");
-        tempCourse2.setCourse_notes("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+        tempCourse2.setCourse_notes("Please add a note");
         tempCourse2.setTerm_id_fk(TermList.get(0).getTerm_id());
 
         start = Calendar.getInstance();
@@ -114,10 +126,21 @@ public class AddSampleData extends AppCompatActivity {
         tempCourse3.setCourse_start(start.getTime());
         tempCourse3.setCourse_end(end.getTime());
         tempCourse3.setCourse_status("Dropped");
-        tempCourse3.setCourse_notes("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+        tempCourse3.setCourse_notes("Please add a note");
         tempCourse3.setTerm_id_fk(TermList.get(0).getTerm_id());
 
-        db.courseDao().insertAllCourses(tempCourse1, tempCourse2, tempCourse3);
+        start = Calendar.getInstance();
+        end = Calendar.getInstance();
+        //start.add(Calendar.MONTH, -2);
+        end.add(Calendar.MONTH, -1);
+        tempCourse4.setCourse_name("Software Engineering");
+        tempCourse4.setCourse_start(start.getTime());
+        tempCourse4.setCourse_end(end.getTime());
+        tempCourse4.setCourse_status("Passed");
+        tempCourse4.setCourse_notes("Please add a note");
+        tempCourse4.setTerm_id_fk(TermList.get(0).getTerm_id());
+
+        db.courseDao().insertAllCourses(tempCourse1, tempCourse2, tempCourse3, tempCourse4);
     }
 
     private void insertCourseMentors() {
@@ -146,7 +169,7 @@ public class AddSampleData extends AppCompatActivity {
         end = Calendar.getInstance();
         start.add(Calendar.MONTH, -2);
         end.add(Calendar.MONTH, -1);
-        tempAssessment1.setAssessment_name("Software Assessment #1");
+        tempAssessment1.setAssessment_name("Software Assessment 1");
         tempAssessment1.setAssessment_due_date(start.getTime());
         tempAssessment1.setAssessment_type("Objective");
         tempAssessment1.setCourse_id_fk(CourseList.get(0).getCourse_id());

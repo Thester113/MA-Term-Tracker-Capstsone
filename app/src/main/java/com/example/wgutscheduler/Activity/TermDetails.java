@@ -68,17 +68,23 @@ public class TermDetails extends AppCompatActivity {
     }
 
     private void setValues() {
+        try {
+            Term term = new Term();
+            term = db.termDao().getTerm(termID);
+            String name = term.getTerm_name();
+            String status = term.getTerm_status();
+            String sDate = DateFormat.format("MM/dd/yyyy", term.getTerm_start()).toString();
+            String eDate = DateFormat.format("MM/dd/yyyy", term.getTerm_end()).toString();
+            tdName.setText(name);
+            tdStatus.setText(status);
+            tdsDate.setText(sDate);
+            tdeDate.setText(eDate);
 
-        Term term = new Term();
-        term = db.termDao().getTerm(termID);
-        String name = term.getTerm_name();
-        String status = term.getTerm_status();
-        String sDate = DateFormat.format("MM/dd/yyyy", term.getTerm_start()).toString();
-        String eDate = DateFormat.format("MM/dd/yyyy", term.getTerm_end()).toString();
-        tdName.setText(name);
-        tdStatus.setText(status);
-        tdsDate.setText(sDate);
-        tdeDate.setText(eDate);
+        } catch (NullPointerException e) {
+            System.out.println("NullPointerException caught");
+
+        }
+
     }
 
     private void updateClassList() {

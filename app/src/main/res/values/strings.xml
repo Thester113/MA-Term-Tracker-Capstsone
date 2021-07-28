@@ -40,6 +40,8 @@
     <string name="add_course">Add Course</string>
     <string name="add_term">Add Term</string>
     <string name="blank_fragment">Blank Fragment</string>
+    <string name="scheduler_progress">Scheduler Progress</string>
+    <string name="terms">Terms:</string>
     <string-array name="course_array">
     <item>In-Progress</item>
     <item>Completed</item>

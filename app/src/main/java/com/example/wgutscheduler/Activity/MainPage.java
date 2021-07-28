@@ -1,10 +1,7 @@
 package com.example.wgutscheduler.Activity;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wgutscheduler.DB.DataBase;
 import com.example.wgutscheduler.Entity.Assessment;
@@ -32,7 +31,7 @@ public class MainPage extends AppCompatActivity {
     TextView assessmentsPendingTextView;
     TextView assessmentsPassedTextView;
     TextView assessmentsFailedTextView;
-    ExtendedFloatingActionButton hTermListFAB;
+    ExtendedFloatingActionButton TermListFAB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +45,10 @@ public class MainPage extends AppCompatActivity {
         assessmentsPendingTextView = findViewById(R.id.assessmentsPendingTextView);
         assessmentsPassedTextView = findViewById(R.id.assessmentsPassedTextView);
         assessmentsFailedTextView = findViewById(R.id.assessmentsFailedTextView);
-        hTermListFAB = findViewById(R.id.hTermListFAB);
+        TermListFAB = findViewById(R.id.TermListFAB);
 
         updateViews();
-        hTermListFAB.setOnClickListener(new View.OnClickListener() {
+        TermListFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), TermList.class);

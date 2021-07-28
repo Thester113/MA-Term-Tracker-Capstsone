@@ -10,15 +10,15 @@
 
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Activity.HomePage">
+        android:layout_height="wrap_content"
+        tools:context=".Activity.MainPage">
 
         <TextView
             android:id="@+id/ProgressView"
             android:layout_width="304dp"
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
-            android:text="Program Progress"
+            android:text="@string/scheduler_progress"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
@@ -49,9 +49,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="4dp"
-                    android:text="Terms:"
+                    android:text="@string/terms"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -61,8 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:text="No Data"
+                    android:text="@string/no_data"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     app:layout_constraintStart_toEndOf="@+id/term"
                     app:layout_constraintTop_toTopOf="@+id/term" />
@@ -96,9 +94,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="Courses"
+                    android:text="@string/courses"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -108,8 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:text="In-Progress:"
+                    android:text="@string/in_progress"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/course" />
 
@@ -118,9 +114,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Completed:"
+                    android:text="@string/completed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/coursePending" />
 
@@ -129,9 +124,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Dropped:"
+                    android:text="@string/dropped"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/courseCompleted" />
 
@@ -140,8 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:text="No Data"
+                    android:text="@string/no_data"
                     app:layout_constraintStart_toEndOf="@+id/coursePending"
                     app:layout_constraintTop_toTopOf="@+id/coursePending" />
 
@@ -150,8 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:text="No Data"
+                    android:text="@string/no_data"
                     app:layout_constraintStart_toEndOf="@+id/courseCompleted"
                     app:layout_constraintTop_toTopOf="@+id/courseCompleted" />
 
@@ -160,8 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:text="No Data"
+                    android:text="@string/no_data"
                     app:layout_constraintStart_toEndOf="@+id/courseDropped"
                     app:layout_constraintTop_toTopOf="@+id/courseDropped" />
 
@@ -195,9 +186,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="Assessments"
+                    android:text="@string/assessments"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -207,8 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:text="In-Progress:"
+                    android:text="@string/in_progress"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/assessment" />
 
@@ -217,8 +206,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:text="No Data"
+                    android:text="@string/no_data"
                     app:layout_constraintStart_toEndOf="@+id/assessmentPending"
                     app:layout_constraintTop_toTopOf="@+id/assessmentPending" />
 
@@ -227,9 +215,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="Passed:"
+                    android:text="@string/passed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/assessmentPending" />
 
@@ -238,8 +225,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:text="No Data"
+                    android:text="@string/no_data"
                     app:layout_constraintStart_toEndOf="@+id/assessmentPassed"
                     app:layout_constraintTop_toTopOf="@+id/assessmentPassed" />
 
@@ -248,10 +234,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Failed:"
+                    android:text="@string/failed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/assessmentPassed" />
 
@@ -260,8 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:text="No Data"
+                    android:text="@string/no_data"
                     app:layout_constraintStart_toEndOf="@+id/assessmentsFailed"
                     app:layout_constraintTop_toTopOf="@+id/assessmentsFailed" />
 
@@ -270,7 +254,7 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/hTermListFAB"
+            android:id="@+id/TermListFAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="36dp"

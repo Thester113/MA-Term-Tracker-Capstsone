@@ -20,6 +20,9 @@ import com.example.wgutscheduler.Entity.CourseMentor;
 import com.example.wgutscheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
+
+
 import java.util.List;
 
 public class CourseDetails extends AppCompatActivity {
@@ -105,24 +108,31 @@ public class CourseDetails extends AppCompatActivity {
     }
 
     private void setValues() {
-        Course course = new Course();
-        course = db.courseDao().getCourse(termID, courseID);
-        String name = course.getCourse_name();
-        String status = course.getCourse_status();
-        boolean alert1 = course.getCourse_alert();
-        String sDate = DateFormat.format("MM/dd/yyyy", course.getCourse_start()).toString();
-        String eDate = DateFormat.format("MM/dd/yyyy", course.getCourse_end()).toString();
-        String notes = course.getCourse_notes();
-        String alert = "Off";
-        if (alert1) {
-            alert = "On";
+        try{
+            Course course = new Course();
+            course = db.courseDao().getCourse(termID, courseID);
+            String name = course.getCourse_name();
+            String status = course.getCourse_status();
+            boolean alert1 = course.getCourse_alert();
+            String sDate = DateFormat.format("MM/dd/yyyy", course.getCourse_start()).toString();
+            String eDate = DateFormat.format("MM/dd/yyyy", course.getCourse_end()).toString();
+            String notes = course.getCourse_notes();
+            String alert = "Off";
+            if (alert1) {
+                alert = "On";
+            }
+            cdName.setText(name);
+            cdStatus.setText(status);
+            cdAlert.setText(alert);
+            cdsDate.setText(sDate);
+            cdeDate.setText(eDate);
+            cdNotes.setText(notes);
+
+        } catch (NullPointerException e) {
+            System.out.print("NullPointerException caught");
+
         }
-        cdName.setText(name);
-        cdStatus.setText(status);
-        cdAlert.setText(alert);
-        cdsDate.setText(sDate);
-        cdeDate.setText(eDate);
-        cdNotes.setText(notes);
+
     }
 
     private void updateLists() {
