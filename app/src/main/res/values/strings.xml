@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">WGUTScheduler</string>
+    <string name="program_progress">Program Progress</string>
+    <string name="view_terms">View Terms</string>
+    <string name="courses">Courses</string>
+    <string name="completed">Completed:</string>
+    <string name="dropped">Dropped:</string>
+    <string name="assessments">Assessments</string>
+    <string name="in_progress">In-Progress:</string>
+    <string name="passed">Passed:</string>
+    <string name="failed">Failed:</string>
+    <string name="send">Send</string>
+    <string name="add_mentor">Add Mentor</string>
+    <string name="save_term">Save Term</string>
+    <string name="spring_2021">Spring 2021</string>
+    <string name="end_date">End Date:</string>
+    <string name="term_name">Term Name:</string>
+    <string name="start_date">Start Date:</string>
+    <string name="no_data">No Data</string>
+    <string name="alerts">Alerts</string>
+    <string name="edit">Edit</string>
+    <string name="select_date">Select Date</string>
+    <string name="due_date">Due Date:</string>
+    <string name="status">Status:</string>
+    <string name="type">Type:</string>
+    <string name="assessment_name">Assessment Name:</string>
+    <string name="name_of_assessment">Name of Assessment</string>
+    <string name="course_name">Course Name:</string>
+    <string name="c196">C196</string>
+    <string name="notes">Notes:</string>
+    <string name="mentors_name">Mentors Name:</string>
+    <string name="joanne_mcdermond">Joanne McDermond</string>
+    <string name="email_address">Email Address:</string>
+    <string name="_111_111_1111">111–111–1111</string>
+    <string name="email_email_com">email@email.com</string>
+    <string name="notification_on_date_course_starts_and_ends">Notification on date course starts and ends</string>
+    <string name="update">Update</string>
+    <string name="mentor_name">Mentor Name:</string>
+    <string name="phone_number">Phone Number:</string>
+    <string name="add_course">Add Course</string>
+    <string name="add_term">Add Term</string>
+    <string name="blank_fragment">Blank Fragment</string>
+    <string-array name="course_array">
+    <item>In-Progress</item>
+    <item>Completed</item>
+    <item>Dropped</item>
+    <item>Plan to Take</item>
+</string-array>
+    <string-array name="term_array">
+    <item>In-Progress</item>
+    <item>Completed</item>
+    <item>Not Enrolled</item>
+</string-array>
+    <string-array name="assessment_status_array">
+        <item>In-Progress</item>
+        <item>Passed</item>
+        <item>Failed</item>
+    </string-array>
+    <string-array name="assessment_type_array">
+    <item>Performance</item>
+    <item>Objective</item>
+</string-array>
+</resources>

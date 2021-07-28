@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.wgutscheduler">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.WGUTScheduler">
+        <receiver
+            android:name=".Utilities.Notifications"
+            android:enabled="true"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.EditMentor"
+            android:label="Edit Mentor"
+            android:parentActivityName=".Activity.MentorDetails" />
+        <activity
+            android:name=".Activity.EditAssessment"
+            android:label="Edit Assessment"
+            android:parentActivityName=".Activity.AssessmentDetails" />
+        <activity
+            android:name=".Activity.EditCourse"
+            android:label="Edit Course"
+            android:parentActivityName=".Activity.CourseDetails" />
+        <activity
+            android:name=".Activity.EditTerm"
+            android:label="Edit Term"
+            android:parentActivityName=".Activity.TermDetails" />
+        <activity
+            android:name=".Activity.MentorDetails"
+            android:label="Mentor Details"
+            android:parentActivityName=".Activity.CourseDetails" />
+        <activity
+            android:name=".Activity.AssessmentDetails"
+            android:label="Assessment Details"
+            android:parentActivityName=".Activity.CourseDetails" />
+        <activity
+            android:name=".Activity.AddMentor"
+            android:label="Add Mentor"
+            android:parentActivityName=".Activity.CourseDetails" />
+        <activity
+            android:name=".Activity.AddAssessment"
+            android:label="Add Assessment"
+            android:parentActivityName=".Activity.CourseDetails" />
+        <activity
+            android:name=".Activity.CourseDetails"
+            android:label="Course Details"
+            android:parentActivityName=".Activity.TermDetails" />
+        <activity
+            android:name=".Activity.AddCourse"
+            android:label="Add Course"
+            android:parentActivityName=".Activity.TermDetails"/>
+        <activity
+            android:name=".Activity.TermDetails"
+            android:label="Term Details"
+            android:parentActivityName=".Activity.TermList" />
+        <activity
+            android:name=".Activity.AddTerm"
+            android:label="Add Term"
+            android:parentActivityName=".Activity.TermList" />
+        <activity
+            android:name=".Activity.TermList"
+            android:label="Term List"
+            android:parentActivityName=".Activity.MainPage" />
+        <activity android:name=".Activity.MainPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
