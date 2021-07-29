@@ -188,22 +188,20 @@ public class AddAssessment extends AppCompatActivity implements DatePickerDialog
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addAssessmentFAB:
-                try {
-                    addAssessment();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (assessmentAdded) {
-                    Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
-                    intent.putExtra("termID", termID);
-                    intent.putExtra("courseID", courseID);
-                    startActivity(intent);
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.addAssessmentFAB) {
+            try {
+                addAssessment();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (assessmentAdded) {
+                Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
+                intent.putExtra("termID", termID);
+                intent.putExtra("courseID", courseID);
+                startActivity(intent);
+            }
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }
