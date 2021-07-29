@@ -136,7 +136,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/cdMentorList"
         app:layout_constraintEnd_toEndOf="@+id/cdMentorList"
-        app:backgroundTint="#FFCC5B"
+        app:backgroundTint="#03A9F4"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <TextView
@@ -187,7 +187,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/cdAssessmentList"
         app:layout_constraintEnd_toEndOf="@+id/cdAssessmentList"
-        app:backgroundTint="#FFCC5B"
+        app:backgroundTint="#03A9F4"
         app:srcCompat="@android:drawable/ic_input_add"/>
 
     <TextView

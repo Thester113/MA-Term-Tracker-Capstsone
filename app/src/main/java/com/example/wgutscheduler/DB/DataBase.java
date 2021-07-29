@@ -16,7 +16,7 @@ import com.example.wgutscheduler.Entity.CourseMentor;
 import com.example.wgutscheduler.Entity.Term;
 import com.example.wgutscheduler.Utilities.Converter;
 
-@androidx.room.Database(entities = {Term.class, Course.class, CourseMentor.class, Assessment.class}, exportSchema = false, version = 1)
+@androidx.room.Database(entities = {Term.class, Course.class, CourseMentor.class, Assessment.class}, exportSchema = false, version = 5)
 @TypeConverters({Converter.class})
 public abstract class DataBase extends RoomDatabase {
     private static final String DB_Name = "WGUTScheduler.db";
