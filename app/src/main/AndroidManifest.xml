@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wgutscheduler">
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,8 +25,7 @@
             android:parentActivityName=".Activity.AssessmentDetails" />
         <activity
             android:name=".Activity.EditCourse"
-            android:label="Edit Course"
-            android:parentActivityName=".Activity.CourseDetails" />
+            android:label="Edit Course"/>
         <activity
             android:name=".Activity.EditTerm"
             android:label="Edit Term"
