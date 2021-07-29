@@ -250,16 +250,14 @@ public class AddCourse extends AppCompatActivity implements DatePickerDialog.OnD
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResult) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResult);
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_SMS: {
-                if (grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phone, null, message, null, null);
-                    Toast.makeText(getApplicationContext(), "SMS message successfully sent", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "SMS message failed, try again", Toast.LENGTH_LONG).show();
-                    return;
-                }
+        if (requestCode == PERMISSIONS_REQUEST_SMS) {
+            if (grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage(phone, null, message, null, null);
+                Toast.makeText(getApplicationContext(), "SMS message successfully sent", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "SMS message failed, try again", Toast.LENGTH_LONG).show();
+                return;
             }
         }
     }
