@@ -47,16 +47,14 @@
             android:parentActivityName=".Activity.CourseDetails" />
         <activity
             android:name=".Activity.CourseDetails"
-            android:label="Course Details"
-            android:parentActivityName=".Activity.TermDetails" />
+            android:label="Course Details" />
         <activity
             android:name=".Activity.AddCourse"
             android:label="Add Course"
             android:parentActivityName=".Activity.TermDetails"/>
         <activity
             android:name=".Activity.TermDetails"
-            android:label="Term Details"
-            android:parentActivityName=".Activity.TermList" />
+            android:label="Term Details" />
         <activity
             android:name=".Activity.AddTerm"
             android:label="Add Term"

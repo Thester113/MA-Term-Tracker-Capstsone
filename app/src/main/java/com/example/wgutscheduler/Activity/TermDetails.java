@@ -20,6 +20,7 @@ import com.example.wgutscheduler.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TermDetails extends AppCompatActivity {
     DataBase db;
@@ -37,6 +38,7 @@ public class TermDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_details);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         tdClassList = findViewById(R.id.tdClassList);
         db = DataBase.getInstance(getApplicationContext());
@@ -109,6 +111,9 @@ public class TermDetails extends AppCompatActivity {
             intent.putExtra("termID", termID);
             intent.putExtra("courseList", allCourses.size());
             startActivity(intent);
+            return true;
+        } else if (item.getItemId() == android.R.id.home){
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

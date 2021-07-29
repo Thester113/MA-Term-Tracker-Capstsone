@@ -42,6 +42,9 @@
     <string name="blank_fragment">Blank Fragment</string>
     <string name="scheduler_progress">Scheduler Progress</string>
     <string name="terms">Terms:</string>
+    <string name="mentors">Mentors</string>
+    <string name="cdaddmentorfab">cdAddMentorFAB</string>
+    <string name="add_assessmentfab">Add AssessmentFAB</string>
     <string-array name="course_array">
     <item>In-Progress</item>
     <item>Completed</item>

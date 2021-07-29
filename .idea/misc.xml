@@ -3,13 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../Library/Android/sdk/platforms/android-30/data/res/layout/simple_list_item_1.xml" value="0.1824074074074074" />
         <entry key="app/src/main/res/layout/activity_add_assessment.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_add_course.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_add_mentor.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_add_term.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_assessment_details.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_course_details.xml" value="0.21197916666666666" />
-        <entry key="app/src/main/res/layout/activity_edit_assessment.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/layout/activity_edit_assessment.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_edit_course.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_edit_mentor.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_edit_term.xml" value="0.14583333333333334" />
@@ -17,6 +18,15 @@
         <entry key="app/src/main/res/layout/activity_mentor_details.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_term_details.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_term_list.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/layout/fragment_date_picker.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/menu/add_assessment.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/add_course.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/add_term.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/edit_assessment.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/edit_course.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/edit_mentor.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/edit_term.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/home_menu.xml" value="0.21197916666666666" />
       </map>
     </option>
   </component>

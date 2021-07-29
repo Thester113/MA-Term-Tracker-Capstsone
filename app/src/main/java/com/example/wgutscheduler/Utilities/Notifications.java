@@ -64,7 +64,7 @@ public class Notifications extends BroadcastReceiver {
         int nextAlertID = alertPrefs.getInt(nextAlert, 1);
         SharedPreferences.Editor alertEditor = alertPrefs.edit();
         alertEditor.putInt(nextAlert, nextAlertID + 1);
-        alertEditor.commit();
+        alertEditor.apply();
     }
 
     private static int getAndIncrementNextAlertID(Context context) {

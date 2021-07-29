@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import java.util.List;
+import java.util.Objects;
 
 public class CourseDetails extends AppCompatActivity {
     DataBase db;
@@ -47,6 +48,7 @@ public class CourseDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         db = DataBase.getInstance(getApplicationContext());
         termID = intent.getIntExtra("termID", -1);
@@ -165,6 +167,9 @@ public class CourseDetails extends AppCompatActivity {
             intent.putExtra("mentorList", allMentors.size());
             intent.putExtra("assessmentList", allAssessments.size());
             startActivity(intent);
+            return true;
+        } else if (item.getItemId() == android.R.id.home){
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
