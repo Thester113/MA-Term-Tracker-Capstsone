@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wgutscheduler">
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,16 +17,19 @@
             android:exported="true" />
         <activity
             android:name=".Activity.EditMentor"
-            android:label="Edit Mentor" />
+            android:label="Edit Mentor"
+            android:parentActivityName=".Activity.MentorDetails" />
         <activity
             android:name=".Activity.EditAssessment"
-            android:label="Edit Assessment" />
+            android:label="Edit Assessment"
+            android:parentActivityName=".Activity.AssessmentDetails" />
         <activity
             android:name=".Activity.EditCourse"
-            android:label="Edit Course" />
+            android:label="Edit Course"/>
         <activity
             android:name=".Activity.EditTerm"
-            android:label="Edit Term" />
+            android:label="Edit Term"
+            android:parentActivityName=".Activity.TermDetails" />
         <activity
             android:name=".Activity.MentorDetails"
             android:label="Mentor Details"
@@ -35,7 +40,8 @@
             android:parentActivityName=".Activity.CourseDetails" />
         <activity
             android:name=".Activity.AddMentor"
-            android:label="Add Mentor" />
+            android:label="Add Mentor"
+            android:parentActivityName=".Activity.CourseDetails" />
         <activity
             android:name=".Activity.AddAssessment"
             android:label="Add Assessment"
