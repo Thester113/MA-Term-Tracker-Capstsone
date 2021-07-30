@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class AddCourse extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -70,6 +71,7 @@ public class AddCourse extends AppCompatActivity implements DatePickerDialog.OnD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_course);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         db = DataBase.getInstance(getApplicationContext());
         termID = intent.getIntExtra("termID", -1);
@@ -269,21 +271,22 @@ public class AddCourse extends AppCompatActivity implements DatePickerDialog.OnD
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addCourseFAB:
-                try {
-                    addCourse();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if (courseAdded) {
-                    Intent intent = new Intent(getApplicationContext(), TermDetails.class);
-                    intent.putExtra("termID", termID);
-                    startActivity(intent);
-                }
+        if (item.getItemId() == R.id.addCourseFAB) {
+            try {
+                addCourse();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (courseAdded) {
+                Intent intent = new Intent(getApplicationContext(), TermDetails.class);
+                intent.putExtra("termID", termID);
+                startActivity(intent);
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            } else if (item.getItemId() == android.R.id.home) {
+                finish();
+                return true;
+            }
         }
+        return super.onOptionsItemSelected(item);
     }
 }

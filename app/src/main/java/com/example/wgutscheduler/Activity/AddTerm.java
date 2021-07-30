@@ -3,6 +3,7 @@ package com.example.wgutscheduler.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,10 +26,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class AddTerm extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     boolean termAdded;
     EditText termName;
+    boolean termDeleted;
     ExtendedFloatingActionButton saveTermFAB;
     DataBase db;
     SimpleDateFormat formatter;
@@ -37,11 +40,14 @@ public class AddTerm extends AppCompatActivity implements DatePickerDialog.OnDat
     TextView endDate;
     TextView startDate;
     private TextView datePickerView;
+    int courseList;
+    int termID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_term);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         db = DataBase.getInstance(getApplicationContext());
         saveTermFAB = findViewById(R.id.saveTermButton);
         status = findViewById(R.id.addTermStatus);
@@ -150,5 +156,31 @@ public class AddTerm extends AppCompatActivity implements DatePickerDialog.OnDat
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currentDateString = month + "/" + dayOfMonth + "/" + year;
         datePickerView.setText(currentDateString);
+    }
+    private void deleteTerm() {
+        if (courseList > 0) {
+            Toast.makeText(this, "Cant delete a term with associated courses", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Term term = new Term();
+        term = db.termDao().getTerm(termID);
+        db.termDao().deleteTerm(term);
+        Toast.makeText(this, "Term has been deleted", Toast.LENGTH_SHORT).show();
+        termDeleted = true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.deleteTermIC) {
+            deleteTerm();
+            Intent intent = new Intent(getApplicationContext(), TermDetails.class);
+            intent.putExtra("termID", termID);
+            startActivity(intent);
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

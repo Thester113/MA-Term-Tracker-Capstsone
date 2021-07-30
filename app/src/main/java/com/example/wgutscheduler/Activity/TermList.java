@@ -14,6 +14,7 @@ import com.example.wgutscheduler.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TermList extends AppCompatActivity {
     DataBase db;
@@ -25,6 +26,7 @@ public class TermList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_list);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         termList = findViewById(R.id.tdTermList);
         db = DataBase.getInstance(getApplicationContext());
         addTermFAB = findViewById(R.id.addTermFAB);

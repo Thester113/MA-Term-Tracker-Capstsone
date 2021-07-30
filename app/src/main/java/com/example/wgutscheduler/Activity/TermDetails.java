@@ -107,7 +107,7 @@ public class TermDetails extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.tdEditTermFAB) {
-            Intent intent = new Intent(getApplicationContext(), EditTerm.class);
+            Intent intent = new Intent(getApplicationContext(), TermList.class);
             intent.putExtra("termID", termID);
             intent.putExtra("courseList", allCourses.size());
             startActivity(intent);

@@ -17,49 +17,40 @@
             android:exported="true" />
         <activity
             android:name=".Activity.EditMentor"
-            android:label="Edit Mentor"
-            android:parentActivityName=".Activity.MentorDetails" />
+            android:label="Edit Mentor" />
         <activity
             android:name=".Activity.EditAssessment"
-            android:label="Edit Assessment"
-            android:parentActivityName=".Activity.AssessmentDetails" />
+            android:label="Edit Assessment" />
         <activity
             android:name=".Activity.EditCourse"
             android:label="Edit Course"/>
         <activity
             android:name=".Activity.EditTerm"
-            android:label="Edit Term"
-            android:parentActivityName=".Activity.TermDetails" />
+            android:label="Edit Term" />
         <activity
             android:name=".Activity.MentorDetails"
-            android:label="Mentor Details"
-            android:parentActivityName=".Activity.CourseDetails" />
+            android:label="Mentor Details" />
         <activity
             android:name=".Activity.AssessmentDetails"
-            android:label="Assessment Details"
-            android:parentActivityName=".Activity.CourseDetails" />
+            android:label="Assessment Details" />
         <activity
             android:name=".Activity.AddMentor"
-            android:label="Add Mentor"
-            android:parentActivityName=".Activity.CourseDetails" />
+            android:label="Add Mentor" />
         <activity
             android:name=".Activity.AddAssessment"
-            android:label="Add Assessment"
-            android:parentActivityName=".Activity.CourseDetails" />
+            android:label="Add Assessment" />
         <activity
             android:name=".Activity.CourseDetails"
             android:label="Course Details" />
         <activity
             android:name=".Activity.AddCourse"
-            android:label="Add Course"
-            android:parentActivityName=".Activity.TermDetails"/>
+            android:label="Add Course" />
         <activity
             android:name=".Activity.TermDetails"
             android:label="Term Details" />
         <activity
             android:name=".Activity.AddTerm"
-            android:label="Add Term"
-            android:parentActivityName=".Activity.TermList" />
+            android:label="Add Term" />
         <activity
             android:name=".Activity.TermList"
             android:label="Term List"
