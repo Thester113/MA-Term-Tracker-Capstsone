@@ -16,6 +16,8 @@ import com.example.wgutscheduler.Entity.CourseMentor;
 import com.example.wgutscheduler.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.util.Objects;
+
 public class MentorDetails extends AppCompatActivity {
     DataBase db;
     int termID;
@@ -32,6 +34,7 @@ public class MentorDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mentor_details);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         db = DataBase.getInstance(getApplicationContext());
         termID = intent.getIntExtra("termID", -1);
@@ -91,7 +94,10 @@ public class MentorDetails extends AppCompatActivity {
             intent.putExtra("courseID", courseID);
             startActivity(intent);
             return true;
-        }
+        } else if (item.getItemId() == android.R.id.home){
+        finish();
+        return true;
+    }
         return super.onOptionsItemSelected(item);
     }
 }

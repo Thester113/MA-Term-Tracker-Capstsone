@@ -2,6 +2,7 @@ package com.example.wgutscheduler.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +13,8 @@ import com.example.wgutscheduler.DB.DataBase;
 import com.example.wgutscheduler.Entity.CourseMentor;
 import com.example.wgutscheduler.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
+import java.util.Objects;
 
 public class AddMentor extends AppCompatActivity {
 
@@ -29,6 +32,7 @@ public class AddMentor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mentor);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         db = DataBase.getInstance(getApplicationContext());
         termID = intent.getIntExtra("termID", -1);
@@ -79,5 +83,22 @@ public class AddMentor extends AppCompatActivity {
         db.MentorDao().insertMentor(mentor);
         Toast.makeText(this, name + " has been added", Toast.LENGTH_SHORT).show();
         mentorAdded = true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.deleteMentorIC) {
+            addMentor();
+            Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
+            intent.putExtra("termID", termID);
+            intent.putExtra("courseID", courseID);
+            startActivity(intent);
+            return true;
+        } else if (item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 }

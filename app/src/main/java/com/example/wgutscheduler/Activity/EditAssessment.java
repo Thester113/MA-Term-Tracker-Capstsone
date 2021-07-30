@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.wgutscheduler.DB.DataBase;
@@ -33,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class EditAssessment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     DataBase db;
@@ -52,7 +54,7 @@ public class EditAssessment extends AppCompatActivity implements DatePickerDialo
     String name;
     String status;
     String type;
-    Switch editaAlert;
+    SwitchCompat editaAlert;
     TextView editAssessmentDueDate;
     private TextView datePickerView;
 
@@ -60,6 +62,7 @@ public class EditAssessment extends AppCompatActivity implements DatePickerDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_assessment);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         db = DataBase.getInstance(getApplicationContext());
         termID = intent.getIntExtra("termID", -1);
@@ -242,12 +245,15 @@ public class EditAssessment extends AppCompatActivity implements DatePickerDialo
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.deleteAssessmentIC) {
             deleteAssessment();
-            Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
+            Intent intent = new Intent(getApplicationContext(), AssessmentDetails.class);
             intent.putExtra("termID", termID);
             intent.putExtra("courseID", courseID);
             startActivity(intent);
             return true;
-        }
+        } else if (item.getItemId() == android.R.id.home){
+        finish();
+        return true;
+    }
         return super.onOptionsItemSelected(item);
     }
 }
