@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class EditAssessment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     DataBase db;
@@ -60,6 +61,7 @@ public class EditAssessment extends AppCompatActivity implements DatePickerDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_assessment);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         db = DataBase.getInstance(getApplicationContext());
         termID = intent.getIntExtra("termID", -1);
@@ -247,7 +249,10 @@ public class EditAssessment extends AppCompatActivity implements DatePickerDialo
             intent.putExtra("courseID", courseID);
             startActivity(intent);
             return true;
-        }
+        } else if (item.getItemId() == android.R.id.home){
+        finish();
+        return true;
+    }
         return super.onOptionsItemSelected(item);
     }
 }
