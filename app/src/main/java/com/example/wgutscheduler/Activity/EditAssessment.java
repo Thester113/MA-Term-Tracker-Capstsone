@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.wgutscheduler.DB.DataBase;
@@ -53,7 +54,7 @@ public class EditAssessment extends AppCompatActivity implements DatePickerDialo
     String name;
     String status;
     String type;
-    Switch editaAlert;
+    SwitchCompat editaAlert;
     TextView editAssessmentDueDate;
     private TextView datePickerView;
 
@@ -244,7 +245,7 @@ public class EditAssessment extends AppCompatActivity implements DatePickerDialo
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.deleteAssessmentIC) {
             deleteAssessment();
-            Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
+            Intent intent = new Intent(getApplicationContext(), AssessmentDetails.class);
             intent.putExtra("termID", termID);
             intent.putExtra("courseID", courseID);
             startActivity(intent);

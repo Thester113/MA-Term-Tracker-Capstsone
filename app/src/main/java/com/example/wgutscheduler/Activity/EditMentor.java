@@ -124,7 +124,7 @@ public class EditMentor extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.deleteMentorIC) {
             deleteMentor();
-            Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
+            Intent intent = new Intent(getApplicationContext(), MentorDetails.class);
             intent.putExtra("termID", termID);
             intent.putExtra("courseID", courseID);
             startActivity(intent);

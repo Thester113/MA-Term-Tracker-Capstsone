@@ -3,8 +3,10 @@ package com.example.wgutscheduler.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +14,8 @@ import com.example.wgutscheduler.DB.DataBase;
 import com.example.wgutscheduler.Entity.Assessment;
 import com.example.wgutscheduler.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
+import java.util.Objects;
 
 public class AssessmentDetails extends AppCompatActivity {
     DataBase db;
@@ -25,11 +29,14 @@ public class AssessmentDetails extends AppCompatActivity {
     TextView adDueDate;
     TextView adAlert;
     ExtendedFloatingActionButton adEditFAB;
+    boolean assessmentDeleted;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assessment_details);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         intent = getIntent();
         db = DataBase.getInstance(getApplicationContext());
         termID = intent.getIntExtra("termID", -1);
@@ -74,5 +81,28 @@ public class AssessmentDetails extends AppCompatActivity {
         adStatus.setText(status);
         adDueDate.setText(dDate);
         adAlert.setText(alert);
+    }
+    private void deleteAssessment() {
+        Assessment assessment = new Assessment();
+        assessment = db.assessmentDao().getAssessment(courseID, assessmentID);
+        db.assessmentDao().deleteAssessment(assessment);
+        Toast.makeText(this, "Assessment has been deleted", Toast.LENGTH_SHORT).show();
+        assessmentDeleted = true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.deleteAssessmentIC) {
+            deleteAssessment();
+            Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
+            intent.putExtra("termID", termID);
+            intent.putExtra("courseID", courseID);
+            startActivity(intent);
+            return true;
+        } else if (item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
