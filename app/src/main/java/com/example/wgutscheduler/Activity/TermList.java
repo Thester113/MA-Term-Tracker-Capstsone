@@ -26,7 +26,6 @@ public class TermList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_list);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         termList = findViewById(R.id.tdTermList);
         db = DataBase.getInstance(getApplicationContext());
         addTermFAB = findViewById(R.id.addTermFAB);

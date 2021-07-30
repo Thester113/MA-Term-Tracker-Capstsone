@@ -282,11 +282,14 @@ public class AddCourse extends AppCompatActivity implements DatePickerDialog.OnD
                 intent.putExtra("termID", termID);
                 startActivity(intent);
                 return true;
-            } else if (item.getItemId() == android.R.id.home) {
-                finish();
-                return true;
             }
+
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+
     }
+
 }
