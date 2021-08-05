@@ -1,180 +1,148 @@
-package com.example.wgutscheduler.Utilities;
+package com.example.wgutscheduler.Utilities
 
-import android.content.Context;
-import android.util.Log;
+import android.content.Context
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.wgutscheduler.DB.DataBase
+import com.example.wgutscheduler.DB.DataBase.Companion.getInstance
+import com.example.wgutscheduler.Entity.Assessment
+import com.example.wgutscheduler.Entity.Course
+import com.example.wgutscheduler.Entity.CourseMentor
+import com.example.wgutscheduler.Entity.Term
+import java.util.*
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.wgutscheduler.DB.DataBase;
-import com.example.wgutscheduler.Entity.Assessment;
-import com.example.wgutscheduler.Entity.Course;
-import com.example.wgutscheduler.Entity.CourseMentor;
-import com.example.wgutscheduler.Entity.Term;
-
-import java.util.Calendar;
-import java.util.List;
-
-public class AddSampleData extends AppCompatActivity {
-    public static String LOG_TAG = "Data Populated";
-
-    Term tempTerm1 = new Term();
-    Term tempTerm2 = new Term();
-    Term tempTerm3 = new Term();
-    Term tempTerm4 = new Term();
-
-    Course tempCourse1 = new Course();
-    Course tempCourse2 = new Course();
-    Course tempCourse3 = new Course();
-    Course tempCourse4 = new Course();
-
-
-    Assessment tempAssessment1 = new Assessment();
-
-    CourseMentor tempCourseMentor1 = new CourseMentor();
-
-    DataBase db;
-
-    public void populate(Context context) {
-        db = DataBase.getInstance(context);
+class AddSampleData : AppCompatActivity() {
+    private var tempTerm1 = Term()
+    private var tempTerm2 = Term()
+    private var tempTerm3 = Term()
+    private var tempTerm4 = Term()
+    private var tempCourse1 = Course()
+    private var tempCourse2 = Course()
+    private var tempCourse3 = Course()
+    private var tempCourse4 = Course()
+    private var tempAssessment1 = Assessment()
+    private var tempCourseMentor1 = CourseMentor()
+    var db: DataBase? = null
+    fun populate(context: Context?) {
+        db = getInstance(context!!)
         try {
-            insertTerms();
-            insertCourses();
-            insertAssessments();
-            insertCourseMentors();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d(LOG_TAG, "Populate DB failed");
+            insertTerms()
+            insertCourses()
+            insertAssessments()
+            insertCourseMentors()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.d(LOG_TAG, "Populate DB failed")
         }
     }
 
-    private void insertTerms() {
-        Calendar start;
-        Calendar end;
-
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
-        start.add(Calendar.MONTH, -2);
-        end.add(Calendar.MONTH, 1);
-        tempTerm1.setTerm_name("Spring 2021");
-        tempTerm1.setTerm_start(start.getTime());
-        tempTerm1.setTerm_status("Completed");
-        tempTerm1.setTerm_end(end.getTime());
-
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
-        start.add(Calendar.MONTH, 2);
-        end.add(Calendar.MONTH, 5);
-        tempTerm2.setTerm_name("Fall 2021");
-        tempTerm2.setTerm_start(start.getTime());
-        tempTerm2.setTerm_status("In-Progress");
-        tempTerm2.setTerm_end(end.getTime());
-
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
-        start.add(Calendar.MONTH, 6);
-        end.add(Calendar.MONTH, 9);
-        tempTerm3.setTerm_name("Spring 2022");
-        tempTerm3.setTerm_start(start.getTime());
-        tempTerm3.setTerm_status("Not Enrolled");
-        tempTerm3.setTerm_end(end.getTime());
-
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
-        start.add(Calendar.MONTH, 1);
-        end.add(Calendar.MONTH, 7);
-        tempTerm4.setTerm_name("Summer 2022");
-        tempTerm4.setTerm_start(start.getTime());
-        tempTerm4.setTerm_status("Not Enrolled");
-        tempTerm4.setTerm_end(end.getTime());
-
-        db.termDao().insertAllTerms(tempTerm1, tempTerm2, tempTerm3, tempTerm4);
+    private fun insertTerms() {
+        var start: Calendar = Calendar.getInstance()
+        var end: Calendar = Calendar.getInstance()
+        start.add(Calendar.MONTH, -2)
+        end.add(Calendar.MONTH, 1)
+        tempTerm1.term_name = "Spring 2021"
+        tempTerm1.term_start = start.time
+        tempTerm1.term_status = "Completed"
+        tempTerm1.term_end = end.time
+        start = Calendar.getInstance()
+        end = Calendar.getInstance()
+        start.add(Calendar.MONTH, 2)
+        end.add(Calendar.MONTH, 5)
+        tempTerm2.term_name = "Fall 2021"
+        tempTerm2.term_start = start.time
+        tempTerm2.term_status = "In-Progress"
+        tempTerm2.term_end = end.time
+        start = Calendar.getInstance()
+        end = Calendar.getInstance()
+        start.add(Calendar.MONTH, 6)
+        end.add(Calendar.MONTH, 9)
+        tempTerm3.term_name = "Spring 2022"
+        tempTerm3.term_start = start.time
+        tempTerm3.term_status = "Not Enrolled"
+        tempTerm3.term_end = end.time
+        start = Calendar.getInstance()
+        end = Calendar.getInstance()
+        start.add(Calendar.MONTH, 1)
+        end.add(Calendar.MONTH, 7)
+        tempTerm4.term_name = "Summer 2022"
+        tempTerm4.term_start = start.time
+        tempTerm4.term_status = "Not Enrolled"
+        tempTerm4.term_end = end.time
+        db!!.termDao()!!.insertAllTerms(tempTerm1, tempTerm2, tempTerm3, tempTerm4)
     }
 
-    private void insertCourses() {
-        Calendar start;
-        Calendar end;
-        List<Term> TermList = db.termDao().getTermList();
-        if (TermList == null) return;
-
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
-        start.add(Calendar.MONTH, -2);
-        end.add(Calendar.MONTH, -1);
-        tempCourse1.setCourse_name("Software 1");
-        tempCourse1.setCourse_start(start.getTime());
-        tempCourse1.setCourse_end(end.getTime());
-        tempCourse1.setCourse_status("Pending");
-        tempCourse1.setCourse_notes("Please Add A Note");
-        tempCourse1.setTerm_id_fk(TermList.get(0).getTerm_id());
-
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
-        start.add(Calendar.MONTH, -1);
+    private fun insertCourses() {
+        val TermList = db!!.termDao()!!.termList ?: return
+        var start: Calendar = Calendar.getInstance()
+        var end: Calendar = Calendar.getInstance()
+        start.add(Calendar.MONTH, -2)
+        end.add(Calendar.MONTH, -1)
+        tempCourse1.course_name = "Software 1"
+        tempCourse1.course_start = start.time
+        tempCourse1.course_end = end.time
+        tempCourse1.course_status = "Pending"
+        tempCourse1.course_notes = "Please Add A Note"
+        tempCourse1.term_id_fk = TermList[0]!!.term_id
+        start = Calendar.getInstance()
+        end = Calendar.getInstance()
+        start.add(Calendar.MONTH, -1)
         //end.add(Calendar.MONTH, 1);
-        tempCourse2.setCourse_name("Software 2");
-        tempCourse2.setCourse_start(start.getTime());
-        tempCourse2.setCourse_end(end.getTime());
-        tempCourse2.setCourse_status("Completed");
-        tempCourse2.setCourse_notes("Please add a note");
-        tempCourse2.setTerm_id_fk(TermList.get(0).getTerm_id());
-
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
+        tempCourse2.course_name = "Software 2"
+        tempCourse2.course_start = start.time
+        tempCourse2.course_end = end.time
+        tempCourse2.course_status = "Completed"
+        tempCourse2.course_notes = "Please add a note"
+        tempCourse2.term_id_fk = TermList[0]!!.term_id
+        start = Calendar.getInstance()
+        end = Calendar.getInstance()
         //start.add(Calendar.MONTH, -2);
-        end.add(Calendar.MONTH, -1);
-        tempCourse3.setCourse_name("Mobile Development");
-        tempCourse3.setCourse_start(start.getTime());
-        tempCourse3.setCourse_end(end.getTime());
-        tempCourse3.setCourse_status("Dropped");
-        tempCourse3.setCourse_notes("Please add a note");
-        tempCourse3.setTerm_id_fk(TermList.get(0).getTerm_id());
-
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
+        end.add(Calendar.MONTH, -1)
+        tempCourse3.course_name = "Mobile Development"
+        tempCourse3.course_start = start.time
+        tempCourse3.course_end = end.time
+        tempCourse3.course_status = "Dropped"
+        tempCourse3.course_notes = "Please add a note"
+        tempCourse3.term_id_fk = TermList[0]!!.term_id
+        start = Calendar.getInstance()
+        end = Calendar.getInstance()
         //start.add(Calendar.MONTH, -2);
-        end.add(Calendar.MONTH, -1);
-        tempCourse4.setCourse_name("Software Engineering");
-        tempCourse4.setCourse_start(start.getTime());
-        tempCourse4.setCourse_end(end.getTime());
-        tempCourse4.setCourse_status("Passed");
-        tempCourse4.setCourse_notes("Please add a note");
-        tempCourse4.setTerm_id_fk(TermList.get(0).getTerm_id());
-
-        db.courseDao().insertAllCourses(tempCourse1, tempCourse2, tempCourse3, tempCourse4);
+        end.add(Calendar.MONTH, -1)
+        tempCourse4.course_name = "Software Engineering"
+        tempCourse4.course_start = start.time
+        tempCourse4.course_end = end.time
+        tempCourse4.course_status = "Passed"
+        tempCourse4.course_notes = "Please add a note"
+        tempCourse4.term_id_fk = TermList[0]!!.term_id
+        db!!.courseDao()!!.insertAllCourses(tempCourse1, tempCourse2, tempCourse3, tempCourse4)
     }
 
-    private void insertCourseMentors() {
-
-        List<Term> TermList = db.termDao().getTermList();
-        List<Course> CourseList = db.courseDao().getCourseList(TermList.get(0).getTerm_id());
-
-        if (CourseList == null) return;
-
-        tempCourseMentor1.setMentor_name("Carolyn Sher-DeCusatis");
-        tempCourseMentor1.setMentor_email("carolyn@wgu.edu");
-        tempCourseMentor1.setMentor_phone("385-528-1197");
-        tempCourseMentor1.setCourse_id_fk(CourseList.get(0).getCourse_id());
-
-        db.MentorDao().insertAllCourseMentors(tempCourseMentor1);
+    private fun insertCourseMentors() {
+        val TermList = db!!.termDao()!!.termList
+        val CourseList = db!!.courseDao()!!.getCourseList(TermList!![0]!!.term_id) ?: return
+        tempCourseMentor1.mentor_name = "Carolyn Sher-DeCusatis"
+        tempCourseMentor1.mentor_email = "carolyn@wgu.edu"
+        tempCourseMentor1.mentor_phone = "385-528-1197"
+        tempCourseMentor1.course_id_fk = CourseList[0]!!.course_id
+        db!!.MentorDao()!!.insertAllCourseMentors(tempCourseMentor1)
     }
 
-    private void insertAssessments() {
-        Calendar start;
-        Calendar end;
-        List<Term> TermList = db.termDao().getTermList();
-        List<Course> CourseList = db.courseDao().getCourseList(TermList.get(0).getTerm_id());
-        if (CourseList == null) return;
+    private fun insertAssessments() {
+        val TermList = db!!.termDao()!!.termList
+        val CourseList = db!!.courseDao()!!.getCourseList(TermList!![0]!!.term_id) ?: return
+        val start: Calendar = Calendar.getInstance()
+        val end: Calendar = Calendar.getInstance()
+        start.add(Calendar.MONTH, -2)
+        end.add(Calendar.MONTH, -1)
+        tempAssessment1.assessment_name = "Software Assessment 1"
+        tempAssessment1.assessment_due_date = start.time
+        tempAssessment1.assessment_type = "Objective"
+        tempAssessment1.course_id_fk = CourseList[0]!!.course_id
+        tempAssessment1.assessment_status = "Pending"
+        db!!.assessmentDao()!!.insertAllAssessments(tempAssessment1)
+    }
 
-        start = Calendar.getInstance();
-        end = Calendar.getInstance();
-        start.add(Calendar.MONTH, -2);
-        end.add(Calendar.MONTH, -1);
-        tempAssessment1.setAssessment_name("Software Assessment 1");
-        tempAssessment1.setAssessment_due_date(start.getTime());
-        tempAssessment1.setAssessment_type("Objective");
-        tempAssessment1.setCourse_id_fk(CourseList.get(0).getCourse_id());
-        tempAssessment1.setAssessment_status("Pending");
-
-        db.assessmentDao().insertAllAssessments(tempAssessment1);
+    companion object {
+        var LOG_TAG = "Data Populated"
     }
 }

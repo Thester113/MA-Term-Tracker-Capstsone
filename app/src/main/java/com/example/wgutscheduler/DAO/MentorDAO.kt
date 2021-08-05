@@ -1,34 +1,25 @@
-package com.example.wgutscheduler.DAO;
+package com.example.wgutscheduler.DAO
 
-
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
-
-import com.example.wgutscheduler.Entity.CourseMentor;
-
-import java.util.List;
+import androidx.room.*
+import com.example.wgutscheduler.Entity.CourseMentor
 
 @Dao
-public interface MentorDAO {
+interface MentorDAO {
     @Query("SELECT * FROM course_mentor WHERE course_id_fk = :courseID ORDER BY mentor_id")
-    List<CourseMentor> getMentorList(int courseID);
+    fun getMentorList(courseID: Int): List<CourseMentor?>?
 
     @Query("SELECT * FROM  course_mentor WHERE course_id_fk = :courseID and mentor_id = :mentorID")
-    CourseMentor getMentor(int courseID, int mentorID);
+    fun getMentor(courseID: Int, mentorID: Int): CourseMentor?
 
     @Insert
-    void insertMentor(CourseMentor courseMentor);
+    fun insertMentor(courseMentor: CourseMentor?)
 
     @Insert
-    void insertAllCourseMentors(CourseMentor... courseMentor);
+    fun insertAllCourseMentors(vararg courseMentor: CourseMentor?)
 
     @Update
-    void updateMentor(CourseMentor courseMentor);
+    fun updateMentor(courseMentor: CourseMentor?)
 
     @Delete
-    void deleteMentor(CourseMentor courseMentor);
+    fun deleteMentor(courseMentor: CourseMentor?)
 }
-

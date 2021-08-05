@@ -1,121 +1,106 @@
-package com.example.wgutscheduler.Activity;
+package com.example.wgutscheduler.Activity
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.content.Intent
+import android.os.Bundle
+import android.text.format.DateFormat
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.wgutscheduler.DB.DataBase
+import com.example.wgutscheduler.Entity.Course
+import com.example.wgutscheduler.Entity.Term
+import com.example.wgutscheduler.R
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-import androidx.appcompat.app.AppCompatActivity;
+class TermDetails : AppCompatActivity() {
+    lateinit var db: DataBase
+    private lateinit var tdAddClassFAB: ExtendedFloatingActionButton
+    var termID = 0
+    private lateinit var allCourses: List<Course>
+    private lateinit var tdClassList: ListView
+    private lateinit var tdeDate: TextView
+    private lateinit var tdName: TextView
+    private lateinit var tdsDate: TextView
+    private lateinit var tdStatus: TextView
 
-import com.example.wgutscheduler.DB.DataBase;
-import com.example.wgutscheduler.Entity.Course;
-import com.example.wgutscheduler.Entity.Term;
-import com.example.wgutscheduler.R;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-
-import java.util.List;
-import java.util.Objects;
-
-public class TermDetails extends AppCompatActivity {
-    DataBase db;
-    ExtendedFloatingActionButton tdAddClassFAB;
-    Intent intent;
-    int termID;
-    List<Course> allCourses;
-    ListView tdClassList;
-    TextView tdeDate;
-    TextView tdName;
-    TextView tdsDate;
-    TextView tdStatus;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_term_details);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        intent = getIntent();
-        tdClassList = findViewById(R.id.tdClassList);
-        db = DataBase.getInstance(getApplicationContext());
-        termID = intent.getIntExtra("termID", -1);
-        tdName = findViewById(R.id.tdName);
-        tdStatus = findViewById(R.id.tdStatus);
-        tdName = findViewById(R.id.tdName);
-        tdsDate = findViewById(R.id.tdSdate);
-        tdeDate = findViewById((R.id.tdEdate));
-        tdAddClassFAB = findViewById(R.id.tdAddClassFAB);
-        updateClassList();
-        setValues();
-        tdAddClassFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddCourse.class);
-                intent.putExtra("termID", termID);
-                startActivity(intent);
-            }
-        });
-        tdClassList.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(getApplicationContext(), CourseDetails.class);
-            intent.putExtra("termID", termID);
-            intent.putExtra("courseID", allCourses.get(position).getCourse_id());
-            startActivity(intent);
-            System.out.println(id);
-        });
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_term_details)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        tdClassList = findViewById(R.id.tdClassList)
+        db = DataBase.getInstance(applicationContext)!!
+        termID = intent.getIntExtra("termID", -1)
+        tdName = findViewById(R.id.tdName)
+        tdStatus = findViewById(R.id.tdStatus)
+        tdName = findViewById(R.id.tdName)
+        tdsDate = findViewById(R.id.tdSdate)
+        tdeDate = findViewById(R.id.tdEdate)
+        tdAddClassFAB = findViewById(R.id.tdAddClassFAB)
+        updateClassList()
+        setValues()
+        tdAddClassFAB.setOnClickListener {
+            val intent = Intent(applicationContext, AddCourse::class.java)
+            intent.putExtra("termID", termID)
+            startActivity(intent)
+        }
+        tdClassList.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            val intent = Intent(applicationContext, CourseDetails::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseID", allCourses[position].course_id)
+            startActivity(intent)
+            println(id)
+        }
     }
 
-    private void setValues() {
+    private fun setValues() {
         try {
-            Term term = new Term();
-            term = db.termDao().getTerm(termID);
-            String name = term.getTerm_name();
-            String status = term.getTerm_status();
-            String sDate = DateFormat.format("MM/dd/yyyy", term.getTerm_start()).toString();
-            String eDate = DateFormat.format("MM/dd/yyyy", term.getTerm_end()).toString();
-            tdName.setText(name);
-            tdStatus.setText(status);
-            tdsDate.setText(sDate);
-            tdeDate.setText(eDate);
-
-        } catch (NullPointerException e) {
-            System.out.println("NullPointerException caught");
-
+            val term: Term? = db.termDao()?.getTerm(termID)
+            val name = term?.term_name
+            val status = term?.term_status
+            val sDate = DateFormat.format("MM/dd/yyyy", term?.term_start).toString()
+            val eDate = DateFormat.format("MM/dd/yyyy", term?.term_end).toString()
+            tdName.text = name
+            tdStatus.text = status
+            tdsDate.text = sDate
+            tdeDate.text = eDate
+        } catch (e: NullPointerException) {
+            println("NullPointerException caught")
         }
-
     }
 
-    private void updateClassList() {
-        List<Course> allCourses = db.courseDao().getCourseList(termID);
-        ArrayAdapter<Course> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allCourses);
-        tdClassList.setAdapter(adapter);
-        this.allCourses = allCourses;
-
-        adapter.notifyDataSetChanged();
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.edit_term, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.tdEditTermFAB) {
-            Intent intent = new Intent(getApplicationContext(), EditTerm.class);
-            intent.putExtra("termID", termID);
-            intent.putExtra("courseList", allCourses.size());
-            startActivity(intent);
-            return true;
-        } else if (item.getItemId() == android.R.id.home){
-            finish();
-            return true;
+    private fun updateClassList() {
+        val allCourses = db.courseDao()?.getCourseList(termID)
+        val adapter = allCourses?.let { ArrayAdapter(this, android.R.layout.simple_list_item_1, it.filterNotNull()) }
+        tdClassList.adapter = adapter
+        if (allCourses != null) {
+            this.allCourses = allCourses.filterNotNull()
         }
-        return super.onOptionsItemSelected(item);
+        adapter?.notifyDataSetChanged()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.edit_term, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.tdEditTermFAB) {
+            val intent = Intent(applicationContext, EditTerm::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseList", allCourses.size)
+            startActivity(intent)
+            return true
+        } else if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

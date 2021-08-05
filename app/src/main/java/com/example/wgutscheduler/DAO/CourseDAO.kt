@@ -1,38 +1,31 @@
-package com.example.wgutscheduler.DAO;
+package com.example.wgutscheduler.DAO
 
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
-
-import com.example.wgutscheduler.Entity.Course;
-
-import java.util.List;
+import androidx.room.*
+import com.example.wgutscheduler.Entity.Course
 
 @Dao
-public interface CourseDAO {
+interface CourseDAO {
     @Query("SELECT * FROM course WHERE term_id_fk = :termID ORDER BY course_id")
-    List<Course> getCourseList(int termID);
+    fun getCourseList(termID: Int): List<Course?>?
 
     @Query("SELECT * FROM course WHERE term_id_fk = :termID and course_id = :courseID")
-    Course getCourse(int termID, int courseID);
+    fun getCourse(termID: Int, courseID: Int): Course?
 
-    @Query("SELECT * FROM course")
-    List<Course> getAllCourses();
+    @get:Query("SELECT * FROM course")
+    val allCourses: List<Course?>?
 
     @Query("SELECT * FROM course WHERE term_id_fk = :termID ORDER BY course_id DESC LIMIT 1")
-    Course getCurrentCourse(int termID);
+    fun getCurrentCourse(termID: Int): Course?
 
     @Insert
-    void insertCourse(Course course);
+    fun insertCourse(course: Course?)
 
     @Insert
-    void insertAllCourses(Course... course);
+    fun insertAllCourses(vararg course: Course?)
 
     @Update
-    void updateCourse(Course course);
+    fun updateCourse(course: Course?)
 
     @Delete
-    void deleteCourse(Course course);
+    fun deleteCourse(course: Course?)
 }

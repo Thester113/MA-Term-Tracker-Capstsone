@@ -1,177 +1,159 @@
-package com.example.wgutscheduler.Activity;
+package com.example.wgutscheduler.Activity
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.content.Intent
+import android.os.Bundle
+import android.text.format.DateFormat
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.wgutscheduler.DB.DataBase
+import com.example.wgutscheduler.Entity.Assessment
+import com.example.wgutscheduler.Entity.Course
+import com.example.wgutscheduler.Entity.CourseMentor
+import com.example.wgutscheduler.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.wgutscheduler.DB.DataBase;
-import com.example.wgutscheduler.Entity.Assessment;
-import com.example.wgutscheduler.Entity.Course;
-import com.example.wgutscheduler.Entity.CourseMentor;
-import com.example.wgutscheduler.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-
-
-
-import java.util.List;
-import java.util.Objects;
-
-public class CourseDetails extends AppCompatActivity {
-    DataBase db;
-    Intent intent;
-    int courseID;
-    int termID;
-    ListView cdMentorList;
-    ListView cdAssessmentList;
-    List<CourseMentor> allMentors;
-    List<Assessment> allAssessments;
-    FloatingActionButton cdAddMentorFAB;
-    FloatingActionButton cdAddAssessmentFAB;
-    TextView cdName;
-    TextView cdStatus;
-    TextView cdAlert;
-    TextView cdsDate;
-    TextView cdeDate;
-    TextView cdNotes;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_details);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        intent = getIntent();
-        db = DataBase.getInstance(getApplicationContext());
-        termID = intent.getIntExtra("termID", -1);
-        courseID = intent.getIntExtra("courseID", -1);
-        cdMentorList = findViewById(R.id.cdMentorList);
-        cdAssessmentList = findViewById(R.id.cdAssessmentList);
-        cdAddMentorFAB = findViewById(R.id.cdAddMentorFAB);
-        cdAddAssessmentFAB = findViewById(R.id.cdAddAssessmentFAB);
-        cdName = findViewById(R.id.cdName);
-        cdStatus = findViewById(R.id.cdStatus);
-        cdAlert = findViewById(R.id.cdAlert);
-        cdsDate = findViewById(R.id.cdSdate);
-        cdeDate = findViewById(R.id.cdEdate);
-        cdNotes = findViewById(R.id.cdNotes);
-
-        setValues();
-        updateLists();
+class CourseDetails : AppCompatActivity() {
+    lateinit var db: DataBase
+    var courseID = 0
+    var termID = 0
+    private lateinit var cdMentorList: ListView
+    private lateinit var cdAssessmentList: ListView
+    private lateinit var allMentors: List<CourseMentor>
+    private lateinit var allAssessments: List<Assessment>
+    private lateinit var cdAddMentorFAB: FloatingActionButton
+    private lateinit var cdAddAssessmentFAB: FloatingActionButton
+    private lateinit var cdName: TextView
+    private lateinit var cdStatus: TextView
+    private lateinit var cdAlert: TextView
+    private lateinit var cdsDate: TextView
+    private lateinit var cdeDate: TextView
+    private lateinit var cdNotes: TextView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_course_details)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        db = DataBase.getInstance(applicationContext)!!
+        termID = intent.getIntExtra("termID", -1)
+        courseID = intent.getIntExtra("courseID", -1)
+        cdMentorList = findViewById(R.id.cdMentorList)
+        cdAssessmentList = findViewById(R.id.cdAssessmentList)
+        cdAddMentorFAB = findViewById(R.id.cdAddMentorFAB)
+        cdAddAssessmentFAB = findViewById(R.id.cdAddAssessmentFAB)
+        cdName = findViewById(R.id.cdName)
+        cdStatus = findViewById(R.id.cdStatus)
+        cdAlert = findViewById(R.id.cdAlert)
+        cdsDate = findViewById(R.id.cdSdate)
+        cdeDate = findViewById(R.id.cdEdate)
+        cdNotes = findViewById(R.id.cdNotes)
+        setValues()
+        updateLists()
 
         //Mentors
-        cdAddMentorFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddMentor.class);
-                intent.putExtra("termID", termID);
-                intent.putExtra("courseID", courseID);
-                startActivity(intent);
-            }
-        });
-
-        cdMentorList.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(getApplicationContext(), MentorDetails.class);
-            intent.putExtra("termID", termID);
-            intent.putExtra("courseID", courseID);
-            intent.putExtra("mentorID", allMentors.get(position).getMentor_id());
-            startActivity(intent);
-            System.out.println(id);
-        });
+        cdAddMentorFAB.setOnClickListener {
+            val intent = Intent(applicationContext, AddMentor::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseID", courseID)
+            startActivity(intent)
+        }
+        cdMentorList.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            val intent = Intent(applicationContext, MentorDetails::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseID", courseID)
+            intent.putExtra("mentorID", allMentors[position].mentor_id)
+            startActivity(intent)
+            println(id)
+        }
 
         //Assessments
-        cdAddAssessmentFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddAssessment.class);
-                intent.putExtra("termID", termID);
-                intent.putExtra("courseID", courseID);
-                startActivity(intent);
-            }
-        });
-
-        cdAssessmentList.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(getApplicationContext(), AssessmentDetails.class);
-            intent.putExtra("termID", termID);
-            intent.putExtra("courseID", courseID);
-            intent.putExtra("assessmentID", allAssessments.get(position).getAssessment_id());
-            startActivity(intent);
-            System.out.println(id);
-        });
-
-    }
-
-    private void setValues() {
-        try{
-            Course course = new Course();
-            course = db.courseDao().getCourse(termID, courseID);
-            String name = course.getCourse_name();
-            String status = course.getCourse_status();
-            boolean alert1 = course.getCourse_alert();
-            String sDate = DateFormat.format("MM/dd/yyyy", course.getCourse_start()).toString();
-            String eDate = DateFormat.format("MM/dd/yyyy", course.getCourse_end()).toString();
-            String notes = course.getCourse_notes();
-            String alert = "Off";
-            if (alert1) {
-                alert = "On";
-            }
-            cdName.setText(name);
-            cdStatus.setText(status);
-            cdAlert.setText(alert);
-            cdsDate.setText(sDate);
-            cdeDate.setText(eDate);
-            cdNotes.setText(notes);
-
-        } catch (NullPointerException e) {
-            System.out.print("NullPointerException caught");
-
+        cdAddAssessmentFAB.setOnClickListener {
+            val intent = Intent(applicationContext, AddAssessment::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseID", courseID)
+            startActivity(intent)
         }
-
-    }
-
-    private void updateLists() {
-        List<CourseMentor> allMentors = db.MentorDao().getMentorList(courseID);
-        ArrayAdapter<CourseMentor> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allMentors);
-        cdMentorList.setAdapter(adapter);
-        this.allMentors = allMentors;
-
-        adapter.notifyDataSetChanged();
-
-        List<Assessment> allAssessments = db.assessmentDao().getAssessmentList(courseID);
-        ArrayAdapter<Assessment> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allAssessments);
-        cdAssessmentList.setAdapter(adapter2);
-        this.allAssessments = allAssessments;
-        adapter2.notifyDataSetChanged();
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.edit_course, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.tdEditCourseIC) {
-            Intent intent = new Intent(getApplicationContext(), EditCourse.class);
-            intent.putExtra("termID", termID);
-            intent.putExtra("courseID", courseID);
-            intent.putExtra("mentorList", allMentors.size());
-            intent.putExtra("assessmentList", allAssessments.size());
-            startActivity(intent);
-            return true;
-        } else if (item.getItemId() == android.R.id.home){
-            finish();
-            return true;
+        cdAssessmentList.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            val intent = Intent(applicationContext, AssessmentDetails::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseID", courseID)
+            intent.putExtra("assessmentID", allAssessments[position].assessment_id)
+            startActivity(intent)
+            println(id)
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    private fun setValues() {
+        try {
+            val course: Course? = db.courseDao()?.getCourse(termID, courseID)
+            val name = course?.course_name
+            val status = course?.course_status
+            val alert1 = course?.course_alert
+            val sDate = DateFormat.format("MM/dd/yyyy", course?.course_start).toString()
+            val eDate = DateFormat.format("MM/dd/yyyy", course?.course_end).toString()
+            val notes = course?.course_notes
+            var alert = "Off"
+            if (alert1 == true) {
+                alert = "On"
+            }
+            cdName.text = name
+            cdStatus.text = status
+            cdAlert.text = alert
+            cdsDate.text = sDate
+            cdeDate.text = eDate
+            cdNotes.text = notes
+        } catch (e: NullPointerException) {
+            print("NullPointerException caught")
+        }
+    }
+
+    private fun updateLists() {
+        val allMentors = db.MentorDao()?.getMentorList(courseID)
+        val adapter = allMentors?.let {
+            ArrayAdapter(this,
+                    android.R.layout.simple_list_item_1,
+                    it.filterNotNull())
+        }
+        cdMentorList.adapter = adapter
+        if (allMentors != null) {
+            this.allMentors = allMentors.filterNotNull()
+        }
+        adapter?.notifyDataSetChanged()
+        val allAssessments = db.assessmentDao()?.getAssessmentList(courseID)
+        val adapter2 = allAssessments?.let { ArrayAdapter(this, android.R.layout.simple_list_item_1, it.filterNotNull()) }
+        cdAssessmentList.adapter = adapter2
+        if (allAssessments != null) {
+            this.allAssessments = allAssessments.filterNotNull()
+        }
+        adapter2?.notifyDataSetChanged()
+    }
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.edit_course, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.tdEditCourseIC) {
+            val intent = Intent(applicationContext, EditCourse::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseID", courseID)
+            intent.putExtra("mentorList", allMentors.size)
+            intent.putExtra("assessmentList", allAssessments.size)
+            startActivity(intent)
+            return true
+        } else if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

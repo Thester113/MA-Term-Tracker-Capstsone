@@ -1,259 +1,222 @@
-package com.example.wgutscheduler.Activity;
+package com.example.wgutscheduler.Activity
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.app.DatePickerDialog.OnDateSetListener
+import android.content.Intent
+import android.os.Bundle
+import android.text.format.DateFormat
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
+import androidx.fragment.app.DialogFragment
+import com.example.wgutscheduler.DB.DataBase
+import com.example.wgutscheduler.Entity.Assessment
+import com.example.wgutscheduler.R
+import com.example.wgutscheduler.Utilities.Converter
+import com.example.wgutscheduler.Utilities.DatePickerFrag
+import com.example.wgutscheduler.Utilities.Notifications
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.DialogFragment;
+class EditAssessment : AppCompatActivity(), OnDateSetListener {
+    lateinit var db: DataBase
+    private var assessmentDeleted = false
+    private var assessmentUpdated = false
+    private lateinit var cDate: Date
+    private lateinit var dueDate: Date
+    private lateinit var editAssessmentNameText: EditText
+    private lateinit var updateAssessmentFAB: ExtendedFloatingActionButton
+    private var assessmentID = 0
+    var courseID = 0
+    var termID = 0
+    private lateinit var formatter: SimpleDateFormat
+    lateinit var editAssessmentStatus: Spinner
+    lateinit var editAssessmentType: Spinner
+    lateinit var name: String
+    lateinit var status: String
+    lateinit var type: String
+    private lateinit var editaAlert: SwitchCompat
+    private lateinit var editAssessmentDueDate: TextView
+    private lateinit var datePickerView: TextView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_edit_assessment)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        db = DataBase.getInstance(applicationContext)!!
+        termID = intent.getIntExtra("termID", -1)
+        courseID = intent.getIntExtra("courseID", -1)
+        assessmentID = intent.getIntExtra("assessmentID", -1)
+        editAssessmentNameText = findViewById(R.id.editAssessmentNameText)
+        editAssessmentType = findViewById(R.id.editAssessmentType)
+        editAssessmentStatus = findViewById(R.id.editAssessmentStatus)
+        editAssessmentDueDate = findViewById(R.id.editAssessmentDueDate)
+        editaAlert = findViewById(R.id.editaAlert)
+        updateAssessmentFAB = findViewById(R.id.updateAssessmentButton)
+        setupDatePicker()
+        setupSpinner()
+        updateAssessmentFAB.setOnClickListener {
+            try {
+                updateAssessment()
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            if (assessmentUpdated) {
+                val intent = Intent(applicationContext, AssessmentDetails::class.java)
+                intent.putExtra("termID", termID)
+                intent.putExtra("courseID", courseID)
+                intent.putExtra("assessmentID", assessmentID)
+                startActivity(intent)
+            }
+        }
+        setValues()
+    }
 
-import com.example.wgutscheduler.DB.DataBase;
-import com.example.wgutscheduler.Entity.Assessment;
-import com.example.wgutscheduler.R;
-import com.example.wgutscheduler.Utilities.Converter;
-import com.example.wgutscheduler.Utilities.DatePickerFrag;
-import com.example.wgutscheduler.Utilities.Notifications;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+    private fun setupSpinner() {
+        val adapter = ArrayAdapter.createFromResource(this, R.array.assessment_type_array, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        editAssessmentType.adapter = adapter
+        editAssessmentType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                type = editAssessmentType.getItemAtPosition(i).toString()
+            }
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
+        val adapter2 = ArrayAdapter.createFromResource(this, R.array.assessment_status_array, android.R.layout.simple_spinner_item)
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        editAssessmentStatus.adapter = adapter2
+        editAssessmentStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                status = editAssessmentStatus.getItemAtPosition(i).toString()
+            }
 
-public class EditAssessment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    DataBase db;
-    boolean assessmentDeleted;
-    boolean assessmentUpdated;
-    Date cDate;
-    Date dueDate;
-    EditText editAssessmentNameText;
-    ExtendedFloatingActionButton updateAssessmentFAB;
-    int assessmentID;
-    int courseID;
-    Intent intent;
-    int termID;
-    SimpleDateFormat formatter;
-    Spinner editAssessmentStatus;
-    Spinner editAssessmentType;
-    String name;
-    String status;
-    String type;
-    SwitchCompat editaAlert;
-    TextView editAssessmentDueDate;
-    private TextView datePickerView;
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
+    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_assessment);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        intent = getIntent();
-        db = DataBase.getInstance(getApplicationContext());
-        termID = intent.getIntExtra("termID", -1);
-        courseID = intent.getIntExtra("courseID", -1);
-        assessmentID = intent.getIntExtra("assessmentID", -1);
-        editAssessmentNameText = findViewById(R.id.editAssessmentNameText);
-        editAssessmentType = findViewById(R.id.editAssessmentType);
-        editAssessmentStatus = findViewById(R.id.editAssessmentStatus);
-        editAssessmentDueDate = findViewById(R.id.editAssessmentDueDate);
-        editaAlert = findViewById(R.id.editaAlert);
-        updateAssessmentFAB = findViewById(R.id.updateAssessmentButton);
+    private fun setValues() {
+        val assessment: Assessment? = db.assessmentDao()?.getAssessment(courseID, assessmentID)
+        val name = assessment?.assessment_name
+        val type = assessment?.assessment_type
+        val status = assessment?.assessment_status
+        val dDate = DateFormat.format("MM/dd/yyyy", assessment?.assessment_due_date).toString()
+        val alert1 = assessment?.assessment_alert
+        editAssessmentNameText.setText(name)
+        type?.let { getIndex(editAssessmentType, it) }?.let { editAssessmentType.setSelection(it) }
+        status?.let { getIndex(editAssessmentStatus, it) }?.let { editAssessmentStatus.setSelection(it) }
+        editAssessmentDueDate.text = dDate
+        if (alert1 != null) {
+            editaAlert.isChecked = alert1
+        }
+    }
 
-        setupDatePicker();
-        setupSpinner();
-
-        updateAssessmentFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    updateAssessment();
-                } catch (ParseException e) {
-                    e.printStackTrace();
+    private fun getIndex(spinner: Spinner?, myString: String): Int {
+        if (spinner != null) {
+            for (i in 0 until spinner.count) {
+                if (spinner.getItemAtPosition(i).toString().equals(myString, ignoreCase = true)) {
+                    return i
                 }
-                if (assessmentUpdated) {
-                    Intent intent = new Intent(getApplicationContext(), AssessmentDetails.class);
-                    intent.putExtra("termID", termID);
-                    intent.putExtra("courseID", courseID);
-                    intent.putExtra("assessmentID", assessmentID);
-                    startActivity(intent);
-                }
-            }
-        });
-        setValues();
-    }
-
-    private void setupSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.assessment_type_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        editAssessmentType.setAdapter(adapter);
-
-        editAssessmentType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                type = editAssessmentType.getItemAtPosition(i).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.assessment_status_array, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        editAssessmentStatus.setAdapter(adapter2);
-
-        editAssessmentStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                status = editAssessmentStatus.getItemAtPosition(i).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-    }
-
-    private void setValues() {
-        Assessment assessment = new Assessment();
-        assessment = db.assessmentDao().getAssessment(courseID, assessmentID);
-        String name = assessment.getAssessment_name();
-        String type = assessment.getAssessment_type();
-        String status = assessment.getAssessment_status();
-        String dDate = DateFormat.format("MM/dd/yyyy", assessment.getAssessment_due_date()).toString();
-        boolean alert1 = assessment.getAssessment_alert();
-
-        editAssessmentNameText.setText(name);
-        editAssessmentType.setSelection(getIndex(editAssessmentType, type));
-        editAssessmentStatus.setSelection(getIndex(editAssessmentStatus, status));
-        editAssessmentDueDate.setText(dDate);
-        editaAlert.setChecked(alert1);
-    }
-
-    private int getIndex(Spinner spinner, String myString) {
-        for (int i = 0; i < spinner.getCount(); i++) {
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
-                return i;
             }
         }
-        return 0;
+        return 0
     }
 
-    private void updateAssessment() throws ParseException {
-        formatter = new SimpleDateFormat("MM/dd/yyyy");
-        name = editAssessmentNameText.getText().toString();
-        String dDate = editAssessmentDueDate.getText().toString();
-        String cDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
-        boolean alert = editaAlert.isChecked();
-        dueDate = formatter.parse(dDate);
-        this.cDate = formatter.parse(cDate);
-
-        if (name.trim().isEmpty()) {
-            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show();
-            return;
+    @Throws(ParseException::class)
+    private fun updateAssessment() {
+        formatter = SimpleDateFormat("MM/dd/yyyy")
+        name = editAssessmentNameText.text.toString()
+        val dDate = editAssessmentDueDate.text.toString()
+        val cDate = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(Date())
+        val alert = editaAlert.isChecked
+        dueDate = formatter.parse(dDate)
+        this.cDate = formatter.parse(cDate)
+        if (name.trim { it <= ' ' }.isEmpty()) {
+            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show()
+            return
         }
-        if (dDate.trim().isEmpty()) {
-            Toast.makeText(this, "Due date is required", Toast.LENGTH_SHORT).show();
-            return;
+        if (dDate.trim { it <= ' ' }.isEmpty()) {
+            Toast.makeText(this, "Due date is required", Toast.LENGTH_SHORT).show()
+            return
         }
-
-        Assessment assessment = new Assessment();
-        assessment.setCourse_id_fk(courseID);
-        assessment.setAssessment_id(assessmentID);
-        assessment.setAssessment_name(name);
-        assessment.setAssessment_type(type);
-        assessment.setAssessment_status(status);
-        assessment.setAssessment_due_date(dueDate);
-        assessment.setAssessment_alert(alert);
-        db.assessmentDao().updateAssessment(assessment);
-        Toast.makeText(this, name + " has been updated", Toast.LENGTH_SHORT).show();
-        assessmentUpdated = true;
+        val assessment = Assessment()
+        assessment.course_id_fk = courseID
+        assessment.assessment_id = assessmentID
+        assessment.assessment_name = name
+        assessment.assessment_type = type
+        assessment.assessment_status = status
+        assessment.assessment_due_date = dueDate
+        assessment.assessment_alert = alert
+        db.assessmentDao()?.updateAssessment(assessment)
+        Toast.makeText(this, "$name has been updated", Toast.LENGTH_SHORT).show()
+        assessmentUpdated = true
         if (alert) {
-            AddAssessmentAlert();
+            AddAssessmentAlert()
         }
     }
 
-    public void AddAssessmentAlert() {
-        String sText = name + " is due today!";
-        setAlert(assessmentID, dueDate, name, sText);
+    private fun AddAssessmentAlert() {
+        val sText = "$name is due today!"
+        setAlert(assessmentID, dueDate, name, sText)
     }
 
-    private void setAlert(int ID, Date date, String title, String text) {
-        long alertTime = Converter.dateToTimeStamp(date);
-
-        if (dueDate.compareTo(cDate) < 0) {
-            return;
+    private fun setAlert(ID: Int, date: Date?, title: String?, text: String) {
+        val alertTime = Converter.dateToTimeStamp(date)
+        if (dueDate < cDate) {
+            return
         }
-        Notifications.setAssessmentAlert(getApplicationContext(), ID, alertTime, title, text);
-        Toast.makeText(this, name + " due date alarm enabled", Toast.LENGTH_SHORT).show();
+        if (alertTime != null) {
+            Notifications.setAssessmentAlert(applicationContext, ID, alertTime, title, text)
+        }
+        Toast.makeText(this, "$name due date alarm enabled", Toast.LENGTH_SHORT).show()
     }
 
-    private void deleteAssessment() {
-        Assessment assessment = new Assessment();
-        assessment = db.assessmentDao().getAssessment(courseID, assessmentID);
-        db.assessmentDao().deleteAssessment(assessment);
-        Toast.makeText(this, "Assessment has been deleted", Toast.LENGTH_SHORT).show();
-        assessmentDeleted = true;
+    private fun deleteAssessment() {
+        val assessment: Assessment? = db.assessmentDao()?.getAssessment(courseID, assessmentID)
+        db.assessmentDao()?.deleteAssessment(assessment)
+        Toast.makeText(this, "Assessment has been deleted", Toast.LENGTH_SHORT).show()
+        assessmentDeleted = true
     }
 
-
-    private void setupDatePicker() {
-
-        editAssessmentDueDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePickerView = findViewById(R.id.editAssessmentDueDate);
-                DialogFragment datePicker = new DatePickerFrag();
-                datePicker.show(getSupportFragmentManager(), "date picker");
-            }
-        });
+    private fun setupDatePicker() {
+        editAssessmentDueDate.setOnClickListener {
+            datePickerView = findViewById(R.id.editAssessmentDueDate)
+            val datePicker: DialogFragment = DatePickerFrag()
+            datePicker.show(supportFragmentManager, "date picker")
+        }
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month = month + 1);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = month + "/" + dayOfMonth + "/" + year;
-        datePickerView.setText(currentDateString);
+    override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
+        var month = month
+        val calendar = Calendar.getInstance()
+        calendar[Calendar.YEAR] = year
+        calendar[Calendar.MONTH] = month + 1.also { month = it }
+        calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+        val currentDateString = "$month/$dayOfMonth/$year"
+        datePickerView.text = currentDateString
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.delete_assessment, menu);
-        return true;
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.delete_assessment, menu)
+        return true
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.deleteAssessmentIC) {
-            deleteAssessment();
-            Intent intent = new Intent(getApplicationContext(), AssessmentDetails.class);
-            intent.putExtra("termID", termID);
-            intent.putExtra("courseID", courseID);
-            startActivity(intent);
-            return true;
-        } else if (item.getItemId() == android.R.id.home){
-        finish();
-        return true;
-    }
-        return super.onOptionsItemSelected(item);
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.deleteAssessmentIC) {
+            deleteAssessment()
+            val intent = Intent(applicationContext, AssessmentDetails::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseID", courseID)
+            startActivity(intent)
+            return true
+        } else if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

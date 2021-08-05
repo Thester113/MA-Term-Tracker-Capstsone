@@ -1,37 +1,28 @@
-package com.example.wgutscheduler.DAO;
+package com.example.wgutscheduler.DAO
 
-
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
-
-import com.example.wgutscheduler.Entity.Term;
-
-import java.util.List;
+import androidx.room.*
+import com.example.wgutscheduler.Entity.Term
 
 @Dao
-public interface TermDAO {
-    @Query("SELECT * FROM term ORDER BY term_id")
-    List<Term> getTermList();
+interface TermDAO {
+    @get:Query("SELECT * FROM term ORDER BY term_id")
+    val termList: List<Term?>?
 
     @Query("SELECT * FROM term WHERE term_id = :termID ORDER BY term_id")
-    Term getTerm(int termID);
+    fun getTerm(termID: Int): Term?
 
-    @Query("SELECT * FROM term")
-    List<Term> getAllTerms();
-
-    @Insert
-    void insertTerm(Term term);
+    @get:Query("SELECT * FROM term")
+    val allTerms: List<Term?>?
 
     @Insert
-    void insertAllTerms(Term... term);
+    fun insertTerm(term: Term?)
+
+    @Insert
+    fun insertAllTerms(vararg term: Term?)
 
     @Update
-    void updateTerm(Term term);
+    fun updateTerm(term: Term?)
 
     @Delete
-    void deleteTerm(Term term);
+    fun deleteTerm(term: Term?)
 }
-

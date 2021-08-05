@@ -1,17 +1,18 @@
-package com.example.wgutscheduler.Utilities;
+package com.example.wgutscheduler.Utilities
 
-import androidx.room.TypeConverter;
+import androidx.room.TypeConverter
+import java.util.*
 
-import java.util.Date;
-
-public class Converter {
+object Converter {
+    @JvmStatic
     @TypeConverter
-    public static Date timeStampToDate(Long value) {
-        return value == null ? null : new Date(value);
+    fun timeStampToDate(value: Long?): Date? {
+        return if (value == null) null else Date(value)
     }
 
+    @JvmStatic
     @TypeConverter
-    public static Long dateToTimeStamp(Date date) {
-        return date == null ? null : date.getTime();
+    fun dateToTimeStamp(date: Date?): Long? {
+        return date?.time
     }
 }

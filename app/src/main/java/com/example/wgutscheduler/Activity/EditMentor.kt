@@ -1,139 +1,116 @@
-package com.example.wgutscheduler.Activity;
+package com.example.wgutscheduler.Activity
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.content.Intent
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.wgutscheduler.DB.DataBase
+import com.example.wgutscheduler.Entity.CourseMentor
+import com.example.wgutscheduler.R
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-import androidx.appcompat.app.AppCompatActivity;
-
-
-import com.example.wgutscheduler.DB.DataBase;
-import com.example.wgutscheduler.Entity.CourseMentor;
-import com.example.wgutscheduler.R;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-
-import java.util.Objects;
-
-public class EditMentor extends AppCompatActivity {
-    DataBase db;
-    boolean mentorDeleted;
-    boolean mentorUpdated;
-    ExtendedFloatingActionButton updateMentorFAB;
-    EditText editMentorEmailAddress;
-    EditText editMentorName;
-    EditText editMentorPhone;
-    int courseID;
-    Intent intent;
-    int mentorID;
-    int termID;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_mentor);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        intent = getIntent();
-        db = DataBase.getInstance(getApplicationContext());
-        termID = intent.getIntExtra("termID", -1);
-        courseID = intent.getIntExtra("courseID", -1);
-        mentorID = intent.getIntExtra("mentorID", -1);
-        editMentorName = findViewById(R.id.editMentorName);
-        editMentorPhone = findViewById(R.id.editMentorPhone);
-        editMentorEmailAddress = findViewById(R.id.editMentorEmailAddress);
-        updateMentorFAB = findViewById(R.id.updateMentorFAB);
-
-        setValues();
-
-        updateMentorFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateMentor();
-
-                if (mentorUpdated) {
-                    Intent intent = new Intent(getApplicationContext(), MentorDetails.class);
-                    intent.putExtra("termID", termID);
-                    intent.putExtra("courseID", courseID);
-                    intent.putExtra("mentorID", mentorID);
-                    startActivity(intent);
-                }
+class EditMentor : AppCompatActivity() {
+    lateinit var db: DataBase
+    private var mentorDeleted = false
+    private var mentorUpdated = false
+    private lateinit var updateMentorFAB: ExtendedFloatingActionButton
+    private lateinit var editMentorEmailAddress: EditText
+    private lateinit var editMentorName: EditText
+    private lateinit var editMentorPhone: EditText
+    var courseID = 0
+    private var mentorID = 0
+    var termID = 0
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_edit_mentor)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        db = DataBase.getInstance(applicationContext)!!
+        termID = intent.getIntExtra("termID", -1)
+        courseID = intent.getIntExtra("courseID", -1)
+        mentorID = intent.getIntExtra("mentorID", -1)
+        editMentorName = findViewById(R.id.editMentorName)
+        editMentorPhone = findViewById(R.id.editMentorPhone)
+        editMentorEmailAddress = findViewById(R.id.editMentorEmailAddress)
+        updateMentorFAB = findViewById(R.id.updateMentorFAB)
+        setValues()
+        updateMentorFAB.setOnClickListener {
+            updateMentor()
+            if (mentorUpdated) {
+                val intent = Intent(applicationContext, MentorDetails::class.java)
+                intent.putExtra("termID", termID)
+                intent.putExtra("courseID", courseID)
+                intent.putExtra("mentorID", mentorID)
+                startActivity(intent)
             }
-        });
-    }
-
-    private void setValues() {
-        CourseMentor mentor = new CourseMentor();
-        mentor = db.MentorDao().getMentor(courseID, mentorID);
-        String name = mentor.getMentor_name();
-        String phone = mentor.getMentor_phone();
-        String email = mentor.getMentor_email();
-
-        editMentorName.setText(name);
-        editMentorPhone.setText(phone);
-        editMentorEmailAddress.setText(email);
-    }
-
-    private void updateMentor() {
-        String name = editMentorName.getText().toString();
-        String phone = editMentorPhone.getText().toString();
-        String email = editMentorEmailAddress.getText().toString();
-
-        if (name.trim().isEmpty()) {
-            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show();
-            return;
         }
-        if (phone.trim().isEmpty()) {
-            Toast.makeText(this, "Number is required", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (email.trim().isEmpty()) {
-            Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        CourseMentor mentor = new CourseMentor();
-        mentor.setCourse_id_fk(courseID);
-        mentor.setMentor_id(mentorID);
-        mentor.setMentor_name(name);
-        mentor.setMentor_phone(phone);
-        mentor.setMentor_email(email);
-        db.MentorDao().updateMentor(mentor);
-        Toast.makeText(this, name + " has been updated", Toast.LENGTH_SHORT).show();
-        mentorUpdated = true;
     }
 
-    private void deleteMentor() {
-        CourseMentor mentor = new CourseMentor();
-        mentor = db.MentorDao().getMentor(courseID, mentorID);
-        db.MentorDao().deleteMentor(mentor);
-        Toast.makeText(this, "Mentor has been deleted", Toast.LENGTH_SHORT).show();
-        mentorDeleted = true;
+    private fun setValues() {
+        val mentor: CourseMentor? = db.MentorDao()?.getMentor(courseID, mentorID)
+        val name = mentor?.mentor_name
+        val phone = mentor?.mentor_phone
+        val email = mentor?.mentor_email
+        editMentorName.setText(name)
+        editMentorPhone.setText(phone)
+        editMentorEmailAddress.setText(email)
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.delete_mentor, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.deleteMentorIC) {
-            deleteMentor();
-            Intent intent = new Intent(getApplicationContext(), MentorDetails.class);
-            intent.putExtra("termID", termID);
-            intent.putExtra("courseID", courseID);
-            startActivity(intent);
-            return true;
-        } else if (item.getItemId() == android.R.id.home){
-            finish();
-            return true;
+    private fun updateMentor() {
+        val name = editMentorName.text.toString()
+        val phone = editMentorPhone.text.toString()
+        val email = editMentorEmailAddress.text.toString()
+        if (name.trim { it <= ' ' }.isEmpty()) {
+            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show()
+            return
         }
-        return super.onOptionsItemSelected(item);
+        if (phone.trim { it <= ' ' }.isEmpty()) {
+            Toast.makeText(this, "Number is required", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (email.trim { it <= ' ' }.isEmpty()) {
+            Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val mentor = CourseMentor()
+        mentor.course_id_fk = courseID
+        mentor.mentor_id = mentorID
+        mentor.mentor_name = name
+        mentor.mentor_phone = phone
+        mentor.mentor_email = email
+        db.MentorDao()?.updateMentor(mentor)
+        Toast.makeText(this, "$name has been updated", Toast.LENGTH_SHORT).show()
+        mentorUpdated = true
+    }
 
+    private fun deleteMentor() {
+        val mentor: CourseMentor? = db.MentorDao()?.getMentor(courseID, mentorID)
+        db.MentorDao()?.deleteMentor(mentor)
+        Toast.makeText(this, "Mentor has been deleted", Toast.LENGTH_SHORT).show()
+        mentorDeleted = true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.delete_mentor, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.deleteMentorIC) {
+            deleteMentor()
+            val intent = Intent(applicationContext, MentorDetails::class.java)
+            intent.putExtra("termID", termID)
+            intent.putExtra("courseID", courseID)
+            startActivity(intent)
+            return true
+        } else if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

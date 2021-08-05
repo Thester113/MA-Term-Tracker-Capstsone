@@ -1,59 +1,50 @@
-package com.example.wgutscheduler.Activity;
+package com.example.wgutscheduler.Activity
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.wgutscheduler.DB.DataBase
+import com.example.wgutscheduler.Entity.Term
+import com.example.wgutscheduler.R
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-import androidx.appcompat.app.AppCompatActivity;
+class TermList : AppCompatActivity() {
+    lateinit var db: DataBase
+    private lateinit var addTermFAB: ExtendedFloatingActionButton
+    private lateinit var allTerms: MutableList<Term>
+    private lateinit var termList: ListView
 
-import com.example.wgutscheduler.DB.DataBase;
-import com.example.wgutscheduler.Entity.Term;
-import com.example.wgutscheduler.R;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-
-import java.util.List;
-import java.util.Objects;
-
-public class TermList extends AppCompatActivity {
-    DataBase db;
-    ExtendedFloatingActionButton addTermFAB;
-    List<Term> allTerms;
-    ListView termList;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_term_list);
-        termList = findViewById(R.id.tdTermList);
-        db = DataBase.getInstance(getApplicationContext());
-        addTermFAB = findViewById(R.id.addTermFAB);
-
-        termList.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(getApplicationContext(), TermDetails.class);
-            intent.putExtra("termID", allTerms.get(position).getTerm_id());
-            startActivity(intent);
-            System.out.println(id);
-        });
-
-        updateTermList();
-
-        addTermFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddTerm.class);
-                startActivity(intent);
-            }
-        });
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_term_list)
+        termList = findViewById(R.id.tdTermList)
+        db = DataBase.getInstance(applicationContext)!!
+        addTermFAB = findViewById(R.id.addTermFAB)
+        termList.setOnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            val intent = Intent(applicationContext, TermDetails::class.java)
+            intent.putExtra("termID", allTerms[position].term_id)
+            startActivity(intent)
+            println(id)
+        }
+        updateTermList()
+        addTermFAB.setOnClickListener {
+            val intent = Intent(applicationContext, AddTerm::class.java)
+            startActivity(intent)
+        }
     }
 
-    private void updateTermList() {
-        List<Term> allTerms = db.termDao().getTermList();
-        ArrayAdapter<Term> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allTerms);
-        termList.setAdapter(adapter);
-        this.allTerms = allTerms;
-
-        adapter.notifyDataSetChanged();
+    private fun updateTermList() {
+        val allTerms = db.termDao()?.termList
+        val adapter = allTerms?.let { ArrayAdapter(this, android.R.layout.simple_list_item_1, it.filterNotNull()) }
+        termList.adapter = adapter
+        if (allTerms != null) {
+            this.allTerms = allTerms.filterNotNull().toMutableList()
+        }
+        adapter?.notifyDataSetChanged()
     }
+
 }

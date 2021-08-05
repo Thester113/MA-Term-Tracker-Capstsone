@@ -1,40 +1,31 @@
-package com.example.wgutscheduler.DAO;
+package com.example.wgutscheduler.DAO
 
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
-
-import com.example.wgutscheduler.Entity.Assessment;
-
-import java.util.List;
+import androidx.room.*
+import com.example.wgutscheduler.Entity.Assessment
 
 @Dao
-public interface AssessmentDAO {
+interface AssessmentDAO {
     @Query("SELECT * FROM assessment WHERE course_id_fk = :courseID ORDER BY assessment_id")
-    List<Assessment> getAssessmentList(int courseID);
+    fun getAssessmentList(courseID: Int): List<Assessment?>?
 
     @Query("Select * from assessment WHERE course_id_fk = :courseID and assessment_id = :assessmentID")
-    Assessment getAssessment(int courseID, int assessmentID);
+    fun getAssessment(courseID: Int, assessmentID: Int): Assessment?
 
-    @Query("SELECT * FROM assessment")
-    List<Assessment> getAllAssessments();
+    @get:Query("SELECT * FROM assessment")
+    val allAssessments: List<Assessment?>?
 
     @Query("SELECT * FROM assessment WHERE course_id_fk = :courseID ORDER BY assessment_id DESC LIMIT 1")
-    Assessment getCurrentAssessment(int courseID);
+    fun getCurrentAssessment(courseID: Int): Assessment?
 
     @Insert
-    void insertAssessment(Assessment assessment);
+    fun insertAssessment(assessment: Assessment?)
 
     @Insert
-    void insertAllAssessments(Assessment... assessment);
+    fun insertAllAssessments(vararg assessment: Assessment?)
 
     @Update
-    void updateAssessment(Assessment assessment);
+    fun updateAssessment(assessment: Assessment?)
 
     @Delete
-    void deleteAssessment(Assessment assessment);
-
-
+    fun deleteAssessment(assessment: Assessment?)
 }
