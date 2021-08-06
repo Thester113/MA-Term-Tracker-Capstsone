@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable/ic_menu_add.xml" value="0.3861538461538462" />
         <entry key="app/src/main/res/drawable/ic_save.xml" value="0.3861538461538462" />
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.13654618473895583" />
         <entry key="app/src/main/res/layout/activity_add_assessment.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_add_course.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_add_mentor.xml" value="0.22" />
@@ -23,6 +24,7 @@
         <entry key="app/src/main/res/layout/activity_edit_course.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_edit_mentor.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_edit_term.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_mentor_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_term_details.xml" value="0.21197916666666666" />

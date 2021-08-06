@@ -15,6 +15,7 @@
             android:name=".Utilities.Notifications"
             android:enabled="true"
             android:exported="true" />
+
         <activity
             android:name=".Activity.EditMentor"
             android:label="Edit Mentor" />
@@ -23,7 +24,7 @@
             android:label="Edit Assessment" />
         <activity
             android:name=".Activity.EditCourse"
-            android:label="Edit Course"/>
+            android:label="Edit Course" />
         <activity
             android:name=".Activity.EditTerm"
             android:label="Edit Term" />
@@ -55,12 +56,15 @@
             android:name=".Activity.TermList"
             android:label="Term List"
             android:parentActivityName=".Activity.MainPage" />
-        <activity android:name=".Activity.MainPage">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".Activity.MainPage"/>
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
     </application>
 

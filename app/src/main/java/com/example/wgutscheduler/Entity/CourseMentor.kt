@@ -22,6 +22,7 @@ open class CourseMentor {
 
     @ColumnInfo(name = "mentor_email")
     var mentor_email: String? = null
+
     override fun toString(): String {
         return mentor_name!!
     }
