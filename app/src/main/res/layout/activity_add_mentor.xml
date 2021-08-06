@@ -72,6 +72,15 @@
         app:layout_constraintStart_toStartOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
+    <TextView
+        android:id="@+id/textViewML"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/mentor_type"
+        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
     <EditText
         android:id="@+id/addMentorPhone"
         android:layout_width="0dp"
@@ -101,6 +110,17 @@
         app:layout_constraintEnd_toEndOf="@+id/addMentorPhone"
         app:layout_constraintStart_toEndOf="@+id/textView19"
         app:layout_constraintTop_toTopOf="@+id/textView19" />
+
+    <Spinner
+        android:id="@+id/addMentorML"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewML"
+        app:layout_constraintEnd_toEndOf="@+id/addMentorPhone"
+        app:layout_constraintStart_toEndOf="@+id/textViewML"
+        app:layout_constraintTop_toTopOf="@+id/textViewML" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

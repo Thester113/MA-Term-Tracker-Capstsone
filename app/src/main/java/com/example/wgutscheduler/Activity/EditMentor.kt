@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wgutscheduler.DB.DataBase
+import com.example.wgutscheduler.Entity.CourseInstructor
 import com.example.wgutscheduler.Entity.CourseMentor
+import com.example.wgutscheduler.Entity.ProgramMentor
 import com.example.wgutscheduler.R
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
@@ -23,6 +25,9 @@ class EditMentor : AppCompatActivity() {
     var courseID = 0
     private var mentorID = 0
     var termID = 0
+    lateinit var addMentorML: Spinner
+    lateinit var statusV: String
+    private lateinit var mentorType: String
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +37,22 @@ class EditMentor : AppCompatActivity() {
         termID = intent.getIntExtra("termID", -1)
         courseID = intent.getIntExtra("courseID", -1)
         mentorID = intent.getIntExtra("mentorID", -1)
+        mentorType= intent.getStringExtra("mentorType").orEmpty()
         editMentorName = findViewById(R.id.editMentorName)
         editMentorPhone = findViewById(R.id.editMentorPhone)
         editMentorEmailAddress = findViewById(R.id.editMentorEmailAddress)
         updateMentorFAB = findViewById(R.id.updateMentorFAB)
+        addMentorML = findViewById(R.id.addMentorML)
+        val adapter = ArrayAdapter.createFromResource(this, R.array.mentor_type_array, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        addMentorML.adapter = adapter
+        addMentorML.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                statusV = addMentorML.getItemAtPosition(i).toString()
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
         setValues()
         updateMentorFAB.setOnClickListener {
             updateMentor()
@@ -44,19 +61,51 @@ class EditMentor : AppCompatActivity() {
                 intent.putExtra("termID", termID)
                 intent.putExtra("courseID", courseID)
                 intent.putExtra("mentorID", mentorID)
+                intent.putExtra("mentorType",mentorType)
                 startActivity(intent)
             }
         }
+
     }
 
     private fun setValues() {
-        val mentor: CourseMentor? = db.MentorDao()?.getMentor(courseID, mentorID)
-        val name = mentor?.mentor_name
-        val phone = mentor?.mentor_phone
-        val email = mentor?.mentor_email
-        editMentorName.setText(name)
-        editMentorPhone.setText(phone)
-        editMentorEmailAddress.setText(email)
+        when(mentorType){
+            "CourseMentor" ->{
+                val mentor: CourseMentor? = db.MentorDao()?.getMentor(courseID, mentorID)
+                val name = mentor?.mentor_name
+                val phone = mentor?.mentor_phone
+                val email = mentor?.mentor_email
+                editMentorName.setText(name)
+                editMentorPhone.setText(phone)
+                editMentorEmailAddress.setText(email)
+                addMentorML.setSelection(0)
+
+            }
+            "ProgramMentor" ->{
+                val mentor: ProgramMentor? = db.MentorDao()?.getProgramMentor(courseID, mentorID)
+                val name = mentor?.mentor_name
+                val phone = mentor?.mentor_phone
+                val email = mentor?.mentor_email
+                editMentorName.setText(name)
+                editMentorPhone.setText(phone)
+                editMentorEmailAddress.setText(email)
+                addMentorML.setSelection(1)
+
+
+            }
+            "CourseInstructor" ->{
+                val mentor: CourseInstructor? = db.MentorDao()?.getCourseInstructor(courseID, mentorID)
+                val name = mentor?.mentor_name
+                val phone = mentor?.mentor_phone
+                val email = mentor?.mentor_email
+                editMentorName.setText(name)
+                editMentorPhone.setText(phone)
+                editMentorEmailAddress.setText(email)
+                addMentorML.setSelection(2)
+
+            }
+        }
+
     }
 
     private fun updateMentor() {
@@ -75,13 +124,34 @@ class EditMentor : AppCompatActivity() {
             Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show()
             return
         }
-        val mentor = CourseMentor()
-        mentor.course_id_fk = courseID
-        mentor.mentor_id = mentorID
-        mentor.mentor_name = name
-        mentor.mentor_phone = phone
-        mentor.mentor_email = email
-        db.MentorDao()?.updateMentor(mentor)
+        when(statusV){
+            "Course Mentor" ->{
+                val mentor = CourseMentor()
+                mentor.course_id_fk = courseID
+                mentor.mentor_name = name
+                mentor.mentor_phone = phone
+                mentor.mentor_email = email
+                db.MentorDao()?.insertMentor(mentor)
+            }
+            "Program Mentor" ->{
+                val mentor = ProgramMentor()
+                mentor.course_id_fk = courseID
+                mentor.mentor_name = name
+                mentor.mentor_phone = phone
+                mentor.mentor_email = email
+                db.MentorDao()?.insertProgramMentor(mentor)
+
+            }
+            "Course Instructor" ->{
+                val mentor = CourseInstructor()
+                mentor.course_id_fk = courseID
+                mentor.mentor_name = name
+                mentor.mentor_phone = phone
+                mentor.mentor_email = email
+                db.MentorDao()?.insertCourseInstructor(mentor)
+
+            }
+        }
         Toast.makeText(this, "$name has been updated", Toast.LENGTH_SHORT).show()
         mentorUpdated = true
     }

@@ -39,7 +39,9 @@ class AddAssessment : AppCompatActivity(), OnDateSetListener {
     private lateinit var aAlert: SwitchCompat
     private lateinit var addAssessmentDueDate: TextView
     private lateinit var datePickerView: TextView
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_assessment)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -79,6 +81,7 @@ class AddAssessment : AppCompatActivity(), OnDateSetListener {
     }
 
     @Throws(ParseException::class)
+
     private fun addAssessment() {
         formatter = SimpleDateFormat("MM/dd/yyyy")
         name = addAssessmentName.text.toString()

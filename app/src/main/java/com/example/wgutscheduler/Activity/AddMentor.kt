@@ -3,11 +3,13 @@ package com.example.wgutscheduler.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.EditText
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wgutscheduler.DB.DataBase
+import com.example.wgutscheduler.Entity.CourseInstructor
 import com.example.wgutscheduler.Entity.CourseMentor
+import com.example.wgutscheduler.Entity.ProgramMentor
 import com.example.wgutscheduler.R
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
@@ -18,6 +20,8 @@ class AddMentor : AppCompatActivity() {
     private lateinit var addMentorName: EditText
     private lateinit var addMentorPhone: EditText
     private lateinit var addMentorFAB: ExtendedFloatingActionButton
+    lateinit var addMentorML: Spinner
+    lateinit var statusV: String
     var courseID = 0
     var termID = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,17 @@ class AddMentor : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        addMentorML = findViewById(R.id.addMentorML)
+        val adapter = ArrayAdapter.createFromResource(this, R.array.mentor_type_array, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        addMentorML.adapter = adapter
+        addMentorML.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                statusV = addMentorML.getItemAtPosition(i).toString()
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
     }
 
     private fun addMentor() {
@@ -58,12 +73,36 @@ class AddMentor : AppCompatActivity() {
             Toast.makeText(this, "An email is required", Toast.LENGTH_SHORT).show()
             return
         }
-        val mentor = CourseMentor()
-        mentor.course_id_fk = courseID
-        mentor.mentor_name = name
-        mentor.mentor_phone = phone
-        mentor.mentor_email = email
-        db.MentorDao()?.insertMentor(mentor)
+        when(statusV){
+            "Course Mentor" ->{
+                val mentor = CourseMentor()
+                mentor.course_id_fk = courseID
+                mentor.mentor_name = name
+                mentor.mentor_phone = phone
+                mentor.mentor_email = email
+                db.MentorDao()?.insertMentor(mentor)
+            }
+            "Program Mentor" ->{
+                val mentor = ProgramMentor()
+                mentor.course_id_fk = courseID
+                mentor.mentor_name = name
+                mentor.mentor_phone = phone
+                mentor.mentor_email = email
+                db.MentorDao()?.insertProgramMentor(mentor)
+
+            }
+            "Course Instructor" ->{
+                val mentor = CourseInstructor()
+                mentor.course_id_fk = courseID
+                mentor.mentor_name = name
+                mentor.mentor_phone = phone
+                mentor.mentor_email = email
+                db.MentorDao()?.insertCourseInstructor(mentor)
+
+            }
+        }
+
+
         Toast.makeText(this, "$name has been added", Toast.LENGTH_SHORT).show()
         mentorAdded = true
     }

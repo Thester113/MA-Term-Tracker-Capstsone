@@ -3,22 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../Library/Android/sdk/platforms/android-30/data/res/layout/activity_list_item.xml" value="0.2125" />
         <entry key="../Library/Android/sdk/platforms/android-30/data/res/layout/simple_list_item_1.xml" value="0.1824074074074074" />
-        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.17945326278659612" />
-        <entry key="app/src/main/res/layout/activity_add_assessment.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.3861538461538462" />
+        <entry key="app/src/main/res/drawable/ic_check.xml" value="0.3861538461538462" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.3861538461538462" />
+        <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.3861538461538462" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.3861538461538462" />
+        <entry key="app/src/main/res/drawable/ic_menu_add.xml" value="0.3861538461538462" />
+        <entry key="app/src/main/res/drawable/ic_save.xml" value="0.3861538461538462" />
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_add_assessment.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_add_course.xml" value="0.21197916666666666" />
-        <entry key="app/src/main/res/layout/activity_add_mentor.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/layout/activity_add_mentor.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_add_term.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_assessment_details.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/activity_course_details.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_edit_assessment.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_edit_course.xml" value="0.14583333333333334" />
-        <entry key="app/src/main/res/layout/activity_edit_mentor.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/layout/activity_edit_mentor.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_edit_term.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14583333333333334" />
-        <entry key="app/src/main/res/layout/activity_mentor_details.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/layout/activity_mentor_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_term_details.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_term_list.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/fragment_date_picker.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/menu/add_assessment.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/menu/add_course.xml" value="0.21197916666666666" />

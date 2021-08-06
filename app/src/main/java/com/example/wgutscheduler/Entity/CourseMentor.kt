@@ -7,7 +7,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(tableName = "course_mentor", foreignKeys = [ForeignKey(entity = Course::class, parentColumns = ["course_id"], childColumns = ["course_id_fk"], onDelete = ForeignKey.CASCADE)])
-class CourseMentor {
+open class CourseMentor {
     @PrimaryKey(autoGenerate = true)
     var mentor_id = 0
 

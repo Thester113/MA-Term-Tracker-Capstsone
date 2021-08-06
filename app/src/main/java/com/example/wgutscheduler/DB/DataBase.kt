@@ -9,13 +9,10 @@ import com.example.wgutscheduler.DAO.AssessmentDAO
 import com.example.wgutscheduler.DAO.CourseDAO
 import com.example.wgutscheduler.DAO.MentorDAO
 import com.example.wgutscheduler.DAO.TermDAO
-import com.example.wgutscheduler.Entity.Assessment
-import com.example.wgutscheduler.Entity.Course
-import com.example.wgutscheduler.Entity.CourseMentor
-import com.example.wgutscheduler.Entity.Term
+import com.example.wgutscheduler.Entity.*
 import com.example.wgutscheduler.Utilities.Converter
 
-@Database(entities = [Term::class, Course::class, CourseMentor::class, Assessment::class], exportSchema = false, version = 5)
+@Database(entities = [Term::class, Course::class, CourseMentor::class, ProgramMentor::class,CourseInstructor::class, Assessment::class], exportSchema = false, version = 5)
 @TypeConverters(Converter::class)
 abstract class DataBase : RoomDatabase() {
     abstract fun termDao(): TermDAO?

@@ -67,6 +67,7 @@ class CourseDetails : AppCompatActivity() {
             intent.putExtra("termID", termID)
             intent.putExtra("courseID", courseID)
             intent.putExtra("mentorID", allMentors[position].mentor_id)
+            intent.putExtra("mentorType",allMentors[position]::class.simpleName)
             startActivity(intent)
             println(id)
         }
@@ -113,17 +114,19 @@ class CourseDetails : AppCompatActivity() {
     }
 
     private fun updateLists() {
-        val allMentors = db.MentorDao()?.getMentorList(courseID)
-        val adapter = allMentors?.let {
-            ArrayAdapter(this,
-                    android.R.layout.simple_list_item_1,
-                    it.filterNotNull())
+
+        val allMentors = mutableListOf<CourseMentor>().apply {
+            db.MentorDao()?.getMentorList(courseID)?.let { addAll(it) }
+            db.MentorDao()?.getProgramMentorList(courseID)?.let { addAll(it) }
+            db.MentorDao()?.getCourseInstructorList(courseID)?.let { addAll(it) }
+            sortBy { it.mentor_id }
         }
+        val adapter = ArrayAdapter(this,
+                android.R.layout.simple_list_item_1,
+                allMentors.filterNotNull())
         cdMentorList.adapter = adapter
-        if (allMentors != null) {
-            this.allMentors = allMentors.filterNotNull()
-        }
-        adapter?.notifyDataSetChanged()
+        this.allMentors = allMentors.filterNotNull()
+        adapter.notifyDataSetChanged()
         val allAssessments = db.assessmentDao()?.getAssessmentList(courseID)
         val adapter2 = allAssessments?.let { ArrayAdapter(this, android.R.layout.simple_list_item_1, it.filterNotNull()) }
         cdAssessmentList.adapter = adapter2

@@ -46,6 +46,12 @@
     <string name="cdaddmentorfab">cdAddMentorFAB</string>
     <string name="add_assessmentfab">Add AssessmentFAB</string>
     <string name="edit_term">Edit Term</string>
+    <string name="mentor_type">Mentor Type:</string>
+    <string-array name="mentor_type_array">
+        <item>Course Mentor</item>
+        <item>Program Mentor</item>
+        <item>Course Instructor</item>
+    </string-array>
     <string-array name="course_array">
     <item>In-Progress</item>
     <item>Completed</item>
