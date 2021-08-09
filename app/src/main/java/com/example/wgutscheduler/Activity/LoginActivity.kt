@@ -13,7 +13,6 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var db: DataBase
     private lateinit var btnSubmit: Button
     private lateinit var userName: EditText
     private lateinit var etPassword: EditText
@@ -21,7 +20,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        db = DataBase.getInstance(applicationContext)!!
         btnSubmit = findViewById(R.id.btn_submit)
         userName =findViewById(R.id.et_user_name)
         etPassword = findViewById(R.id.et_password)
