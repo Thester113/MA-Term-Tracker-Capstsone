@@ -16,6 +16,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnSubmit: Button
     private lateinit var userName: EditText
     private lateinit var etPassword: EditText
+    private lateinit var btnReset: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         btnSubmit = findViewById(R.id.btn_submit)
         userName =findViewById(R.id.et_user_name)
         etPassword = findViewById(R.id.et_password)
+        btnReset = findViewById(R.id.btn_reset)
         btnSubmit.setOnClickListener {
 
             val userName = userName.text
@@ -36,6 +38,12 @@ class LoginActivity : AppCompatActivity() {
 
             Toast.makeText(this@LoginActivity, userName, Toast.LENGTH_LONG).show()
         }
+        btnReset.setOnClickListener {
+            userName.setText("")
+            etPassword.setText("")
+
+        }
+
 
 
     }
