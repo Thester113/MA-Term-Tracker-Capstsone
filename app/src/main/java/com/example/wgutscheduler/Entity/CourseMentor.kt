@@ -7,6 +7,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(tableName = "course_mentor", foreignKeys = [ForeignKey(entity = Course::class, parentColumns = ["course_id"], childColumns = ["course_id_fk"], onDelete = ForeignKey.CASCADE)])
+/*Kotlin Inheritance #Req 2
+Extends to CourseInstructor and Program Mentor
+*/
 open class CourseMentor {
     @PrimaryKey(autoGenerate = true)
     var mentor_id = 0
