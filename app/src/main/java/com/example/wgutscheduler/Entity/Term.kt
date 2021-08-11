@@ -24,4 +24,5 @@ class Term {
     override fun toString(): String {
         return term_name!!
     }
+
 }

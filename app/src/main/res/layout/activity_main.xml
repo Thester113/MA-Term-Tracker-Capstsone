@@ -177,6 +177,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/courseCard">
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -249,9 +250,12 @@
                     app:layout_constraintStart_toEndOf="@+id/assessmentsFailed"
                     app:layout_constraintTop_toTopOf="@+id/assessmentsFailed" />
 
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         </androidx.cardview.widget.CardView>
+
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/TermListFAB"
@@ -266,5 +270,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+
+        <Button
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Search Terms/Courses/Assessments"
+            app:layout_constraintTop_toBottomOf="@id/assessmentCard"
+            />
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </ScrollView>

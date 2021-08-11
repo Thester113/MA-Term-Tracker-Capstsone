@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +24,7 @@ class MainPage : AppCompatActivity() {
     private lateinit var assessmentsPassedTextView: TextView
     private lateinit var assessmentsFailedTextView: TextView
     private lateinit var TermListFAB: ExtendedFloatingActionButton
+    private lateinit var searchBar: Button
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +38,14 @@ class MainPage : AppCompatActivity() {
         assessmentsPassedTextView = findViewById(R.id.assessmentsPassedTextView)
         assessmentsFailedTextView = findViewById(R.id.assessmentsFailedTextView)
         TermListFAB = findViewById(R.id.TermListFAB)
+        searchBar = findViewById(R.id.search_bar)
         updateViews()
         TermListFAB.setOnClickListener {
             val intent = Intent(applicationContext, TermList::class.java)
+            startActivity(intent)
+        }
+        searchBar.setOnClickListener {
+            val intent = Intent(applicationContext, SearchActivity::class.java)
             startActivity(intent)
         }
     }

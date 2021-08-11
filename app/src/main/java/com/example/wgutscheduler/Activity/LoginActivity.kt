@@ -44,7 +44,6 @@ class LoginActivity : AppCompatActivity() {
                 finish()
 
             }
-
             Toast.makeText(this@LoginActivity, userName, Toast.LENGTH_LONG).show()
         }
         btnReset.setOnClickListener {

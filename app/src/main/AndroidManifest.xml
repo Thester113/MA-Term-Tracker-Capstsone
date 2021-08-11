@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WGUTScheduler">
+        <activity
+            android:name=".Activity.SearchActivity"
+            android:exported="true" />
+
         <receiver
             android:name=".Utilities.Notifications"
             android:enabled="true"
@@ -56,15 +60,15 @@
             android:name=".Activity.TermList"
             android:label="Term List"
             android:parentActivityName=".Activity.MainPage" />
-        <activity android:name=".Activity.MainPage"/>
+        <activity android:name=".Activity.MainPage" />
         <activity
             android:name=".Activity.LoginActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

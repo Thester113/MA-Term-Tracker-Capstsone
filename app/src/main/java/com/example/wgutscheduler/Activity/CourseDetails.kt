@@ -114,7 +114,7 @@ class CourseDetails : AppCompatActivity() {
     }
 
     private fun updateLists() {
-
+        //Mutable List is Kotlin Polymorphism Req 2
         val allMentors = mutableListOf<CourseMentor>().apply {
             db.MentorDao()?.getMentorList(courseID)?.let { addAll(it) }
             db.MentorDao()?.getProgramMentorList(courseID)?.let { addAll(it) }

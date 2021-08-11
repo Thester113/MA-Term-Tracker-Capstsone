@@ -1,7 +1,9 @@
 package com.example.wgutscheduler.DAO
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.wgutscheduler.Entity.Assessment
+import com.example.wgutscheduler.Entity.Term
 
 @Dao
 interface AssessmentDAO {
@@ -16,6 +18,9 @@ interface AssessmentDAO {
 
     @Query("SELECT * FROM assessment WHERE course_id_fk = :courseID ORDER BY assessment_id DESC LIMIT 1")
     fun getCurrentAssessment(courseID: Int): Assessment?
+
+    @Query("SELECT * FROM assessment WHERE assessment_name LIKE :assessmentName")
+    fun searchAssessments(assessmentName: String): List<Assessment>
 
     @Insert
     fun insertAssessment(assessment: Assessment?)
