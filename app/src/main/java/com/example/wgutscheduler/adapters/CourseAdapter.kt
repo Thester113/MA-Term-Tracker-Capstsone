@@ -1,11 +1,16 @@
 package com.example.wgutscheduler.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wgutscheduler.Activity.AssessmentDetails
+import com.example.wgutscheduler.Activity.CourseDetails
+import com.example.wgutscheduler.DB.DataBase
 import com.example.wgutscheduler.Entity.Course
 import com.example.wgutscheduler.R
 
@@ -21,6 +26,12 @@ class CourseAdapter (private val layoutInflater: LayoutInflater) : ListAdapter<C
         val itemName = view.findViewById<TextView>(R.id.itemName)
         itemType.text = view.context.getString(R.string.Course)
         itemName.text = item?.course_name.orEmpty()
+        view.setOnClickListener{
+            val intent = Intent(it.context, CourseDetails::class.java)
+            intent.putExtra("termID",item.term_id_fk)
+            intent.putExtra("courseID", item.course_id)
+            ContextCompat.startActivity(it.context, intent, null)
+        }
     }
 
     companion object {

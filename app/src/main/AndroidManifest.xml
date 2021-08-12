@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WGUTScheduler">
         <activity
+            android:name=".Activity.ReportsActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".Activity.SearchActivity"
             android:exported="true" />
 

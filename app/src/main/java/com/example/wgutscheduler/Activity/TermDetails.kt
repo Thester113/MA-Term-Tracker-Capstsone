@@ -6,11 +6,8 @@ import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wgutscheduler.DB.DataBase
 import com.example.wgutscheduler.Entity.Course
@@ -28,6 +25,7 @@ class TermDetails : AppCompatActivity() {
     private lateinit var tdName: TextView
     private lateinit var tdsDate: TextView
     private lateinit var tdStatus: TextView
+    private lateinit var reportBar: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +40,7 @@ class TermDetails : AppCompatActivity() {
         tdsDate = findViewById(R.id.tdSdate)
         tdeDate = findViewById(R.id.tdEdate)
         tdAddClassFAB = findViewById(R.id.tdAddClassFAB)
+        reportBar = findViewById(R.id.report_bar)
         updateClassList()
         setValues()
         tdAddClassFAB.setOnClickListener {
@@ -55,6 +54,10 @@ class TermDetails : AppCompatActivity() {
             intent.putExtra("courseID", allCourses[position].course_id)
             startActivity(intent)
             println(id)
+        }
+        reportBar.setOnClickListener {
+            val intent = Intent(applicationContext, ReportsActivity::class.java)
+            startActivity(intent)
         }
     }
 

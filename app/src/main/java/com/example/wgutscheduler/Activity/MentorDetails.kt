@@ -28,6 +28,7 @@ class MentorDetails : AppCompatActivity() {
     lateinit var mentorType: String
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mentor_details)
@@ -55,8 +56,19 @@ class MentorDetails : AppCompatActivity() {
 
 
     private fun deleteMentor() {
-        val mentor: CourseMentor? = db.MentorDao()?.getMentor(courseID, mentorID)
-        db.MentorDao()?.deleteMentor(mentor)
+        when(mentorType){
+            "CourseMentor" ->{
+                db.MentorDao()?.deleteMentor(courseID,mentorID)
+            }
+            "ProgramMentor" ->{
+                db.MentorDao()?.deleteProgramMentor(courseID, mentorID)
+
+            }
+            "CourseInstructor" ->{
+                db.MentorDao()?.deleteCourseInstructor(courseID, mentorID)
+
+            }
+        }
         Toast.makeText(this, "Mentor has been deleted", Toast.LENGTH_SHORT).show()
         mentorDeleted = true
     }

@@ -41,6 +41,12 @@ interface MentorDAO {
     @Update
     fun updateMentor(courseMentor: CourseMentor?)
 
-    @Delete
-    fun deleteMentor(courseMentor: CourseMentor?)
+    @Query("DELETE FROM course_mentor WHERE course_id_fk = :courseID and mentor_id = :mentorID " )
+    fun deleteMentor(courseID: Int, mentorID: Int)
+
+    @Query("DELETE FROM program_mentor WHERE course_id_fk = :courseID and mentor_id = :mentorID " )
+    fun deleteProgramMentor(courseID: Int, mentorID: Int)
+
+    @Query("DELETE FROM course_instructor WHERE course_id_fk = :courseID and mentor_id = :mentorID " )
+    fun deleteCourseInstructor(courseID: Int, mentorID: Int)
 }

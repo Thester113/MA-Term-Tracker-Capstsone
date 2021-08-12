@@ -28,7 +28,7 @@ class EditMentor : AppCompatActivity() {
     lateinit var addMentorML: Spinner
     lateinit var statusV: String
     private lateinit var mentorType: String
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_mentor)
@@ -37,7 +37,7 @@ class EditMentor : AppCompatActivity() {
         termID = intent.getIntExtra("termID", -1)
         courseID = intent.getIntExtra("courseID", -1)
         mentorID = intent.getIntExtra("mentorID", -1)
-        mentorType= intent.getStringExtra("mentorType").orEmpty()
+        mentorType = intent.getStringExtra("mentorType").orEmpty()
         editMentorName = findViewById(R.id.editMentorName)
         editMentorPhone = findViewById(R.id.editMentorPhone)
         editMentorEmailAddress = findViewById(R.id.editMentorEmailAddress)
@@ -61,7 +61,7 @@ class EditMentor : AppCompatActivity() {
                 intent.putExtra("termID", termID)
                 intent.putExtra("courseID", courseID)
                 intent.putExtra("mentorID", mentorID)
-                intent.putExtra("mentorType",mentorType)
+                intent.putExtra("mentorType", mentorType)
                 startActivity(intent)
             }
         }
@@ -69,8 +69,8 @@ class EditMentor : AppCompatActivity() {
     }
 
     private fun setValues() {
-        when(mentorType){
-            "CourseMentor" ->{
+        when (mentorType) {
+            "CourseMentor" -> {
                 val mentor: CourseMentor? = db.MentorDao()?.getMentor(courseID, mentorID)
                 val name = mentor?.mentor_name
                 val phone = mentor?.mentor_phone
@@ -81,7 +81,7 @@ class EditMentor : AppCompatActivity() {
                 addMentorML.setSelection(0)
 
             }
-            "ProgramMentor" ->{
+            "ProgramMentor" -> {
                 val mentor: ProgramMentor? = db.MentorDao()?.getProgramMentor(courseID, mentorID)
                 val name = mentor?.mentor_name
                 val phone = mentor?.mentor_phone
@@ -93,7 +93,7 @@ class EditMentor : AppCompatActivity() {
 
 
             }
-            "CourseInstructor" ->{
+            "CourseInstructor" -> {
                 val mentor: CourseInstructor? = db.MentorDao()?.getCourseInstructor(courseID, mentorID)
                 val name = mentor?.mentor_name
                 val phone = mentor?.mentor_phone
@@ -124,8 +124,8 @@ class EditMentor : AppCompatActivity() {
             Toast.makeText(this, "Email is required", Toast.LENGTH_SHORT).show()
             return
         }
-        when(statusV){
-            "Course Mentor" ->{
+        when (statusV) {
+            "Course Mentor" -> {
                 val mentor = CourseMentor()
                 mentor.course_id_fk = courseID
                 mentor.mentor_name = name
@@ -133,7 +133,7 @@ class EditMentor : AppCompatActivity() {
                 mentor.mentor_email = email
                 db.MentorDao()?.insertMentor(mentor)
             }
-            "Program Mentor" ->{
+            "Program Mentor" -> {
                 val mentor = ProgramMentor()
                 mentor.course_id_fk = courseID
                 mentor.mentor_name = name
@@ -142,7 +142,7 @@ class EditMentor : AppCompatActivity() {
                 db.MentorDao()?.insertProgramMentor(mentor)
 
             }
-            "Course Instructor" ->{
+            "Course Instructor" -> {
                 val mentor = CourseInstructor()
                 mentor.course_id_fk = courseID
                 mentor.mentor_name = name
@@ -156,11 +156,24 @@ class EditMentor : AppCompatActivity() {
         mentorUpdated = true
     }
 
+    //TODO: Fix
     private fun deleteMentor() {
-        val mentor: CourseMentor? = db.MentorDao()?.getMentor(courseID, mentorID)
-        db.MentorDao()?.deleteMentor(mentor)
+        when (statusV) {
+            "Course Mentor" ->{
+                db.MentorDao()?.deleteMentor(courseID,mentorID)
+            }
+            "Program Mentor" ->{
+                db.MentorDao()?.deleteProgramMentor(courseID, mentorID)
+
+            }
+            "Course Instructor" ->{
+                db.MentorDao()?.deleteCourseInstructor(courseID, mentorID)
+
+            }
+        }
         Toast.makeText(this, "Mentor has been deleted", Toast.LENGTH_SHORT).show()
         mentorDeleted = true
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

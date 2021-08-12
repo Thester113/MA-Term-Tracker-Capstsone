@@ -24,21 +24,21 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         db = DataBase.getInstance(applicationContext)!!
-        if(db.UserDao()?.hasTestUser() == false) {
+        if (db.UserDao()?.hasTestUser() == false) {
             val user = User()
             user.user_name = "test"
             user.user_password = "098F6BCD4621D373CADE4E832627B4F6"
             db.UserDao()?.insertUser(user)
         }
         btnSubmit = findViewById(R.id.btn_submit)
-        userName =findViewById(R.id.et_user_name)
+        userName = findViewById(R.id.et_user_name)
         etPassword = findViewById(R.id.et_password)
         btnReset = findViewById(R.id.btn_reset)
         btnSubmit.setOnClickListener {
             val userName = userName.text.toString()
             val password = etPassword.text.toString()
-            val user = db.UserDao()?.getUser(userName = userName )
-            if(user != null && hash(password) == user.user_password) {
+            val user = db.UserDao()?.getUser(userName = userName)
+            if (user != null && hash(password) == user.user_password) {
                 val intent = Intent(applicationContext, MainPage::class.java)
                 startActivity(intent)
                 finish()
@@ -53,8 +53,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
-
     }
+
     fun hash(input: String): String? {
         return try {
             val md: MessageDigest = MessageDigest.getInstance("MD5")

@@ -22,6 +22,9 @@ interface AssessmentDAO {
     @Query("SELECT * FROM assessment WHERE assessment_name LIKE :assessmentName")
     fun searchAssessments(assessmentName: String): List<Assessment>
 
+    @Query("SELECT term_id_fk FROM course INNER JOIN assessment ON course.course_id = assessment.course_id_fk WHERE course.course_id = :courseID")
+    fun getTermId(courseID: Int): Int
+
     @Insert
     fun insertAssessment(assessment: Assessment?)
 
