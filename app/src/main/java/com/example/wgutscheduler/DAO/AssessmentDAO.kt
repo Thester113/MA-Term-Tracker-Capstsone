@@ -8,7 +8,7 @@ import com.example.wgutscheduler.Entity.Term
 @Dao
 interface AssessmentDAO {
     @Query("SELECT * FROM assessment WHERE course_id_fk = :courseID ORDER BY assessment_id")
-    fun getAssessmentList(courseID: Int): List<Assessment?>?
+    fun getAssessmentList(courseID: Int): List<Assessment>
 
     @Query("Select * from assessment WHERE course_id_fk = :courseID and assessment_id = :assessmentID")
     fun getAssessment(courseID: Int, assessmentID: Int): Assessment?

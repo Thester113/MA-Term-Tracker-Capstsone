@@ -57,6 +57,7 @@ class TermDetails : AppCompatActivity() {
         }
         reportBar.setOnClickListener {
             val intent = Intent(applicationContext, ReportsActivity::class.java)
+            intent.putExtra("termID", termID)
             startActivity(intent)
         }
     }

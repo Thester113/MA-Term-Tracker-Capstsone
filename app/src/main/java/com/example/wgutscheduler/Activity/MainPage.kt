@@ -25,7 +25,7 @@ class MainPage : AppCompatActivity() {
     private lateinit var assessmentsFailedTextView: TextView
     private lateinit var TermListFAB: ExtendedFloatingActionButton
     private lateinit var searchBar: Button
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -127,18 +127,25 @@ class MainPage : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemId = item.itemId
-        if (itemId == R.id.populateDBMenu) {
-            val addSampleData = AddSampleData()
-            addSampleData.populate(applicationContext)
-            updateViews()
-            Toast.makeText(this, "Congrats! DB Populated", Toast.LENGTH_SHORT).show()
-            return true
-        } else if (itemId == R.id.resetDBMenu) {
-            db.clearAllTables()
-            updateViews()
-            Toast.makeText(this, "DB successfully Reset", Toast.LENGTH_SHORT).show()
-            return true
+        try {
+            if (itemId == R.id.populateDBMenu) {
+                val addSampleData = AddSampleData()
+                addSampleData.populate(applicationContext)
+                updateViews()
+                Toast.makeText(this, "Congrats! DB Populated", Toast.LENGTH_SHORT).show()
+                return true
+            } else if (itemId == R.id.resetDBMenu) {
+                db.clearAllTables()
+                updateViews()
+                Toast.makeText(this, "DB successfully Reset", Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return super.onOptionsItemSelected(item)
+
     }
+
 }
