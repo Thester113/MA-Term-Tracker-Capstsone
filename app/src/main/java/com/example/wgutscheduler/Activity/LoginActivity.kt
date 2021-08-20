@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.wgutscheduler.DB.DataBase
 import com.example.wgutscheduler.Entity.User
 import com.example.wgutscheduler.R
-import java.math.BigInteger
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
+import com.example.wgutscheduler.Utilities.hash
+
+
 
 class LoginActivity : AppCompatActivity() {
     lateinit var db: DataBase
@@ -55,16 +55,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun hash(input: String): String? {
-        return try {
-            val md: MessageDigest = MessageDigest.getInstance("MD5")
-            val md5Data = BigInteger(1, md.digest(input.toByteArray()))
-            java.lang.String.format("%032X", md5Data)
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-            null
-        }
-    }
 }
 
 

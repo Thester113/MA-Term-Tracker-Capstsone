@@ -129,8 +129,8 @@ class MainPage : AppCompatActivity() {
         val itemId = item.itemId
         try {
             if (itemId == R.id.populateDBMenu) {
-                val addSampleData = AddSampleData()
-                addSampleData.populate(applicationContext)
+                val addSampleData = AddSampleData(db = db)
+                addSampleData.populate()
                 updateViews()
                 Toast.makeText(this, "Congrats! DB Populated", Toast.LENGTH_SHORT).show()
                 return true

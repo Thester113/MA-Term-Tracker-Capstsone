@@ -156,17 +156,17 @@ class EditMentor : AppCompatActivity() {
         mentorUpdated = true
     }
 
-    //TODO: Fix
+
     private fun deleteMentor() {
         when (statusV) {
-            "Course Mentor" ->{
-                db.MentorDao()?.deleteMentor(courseID,mentorID)
+            "Course Mentor" -> {
+                db.MentorDao()?.deleteMentor(courseID, mentorID)
             }
-            "Program Mentor" ->{
+            "Program Mentor" -> {
                 db.MentorDao()?.deleteProgramMentor(courseID, mentorID)
 
             }
-            "Course Instructor" ->{
+            "Course Instructor" -> {
                 db.MentorDao()?.deleteCourseInstructor(courseID, mentorID)
 
             }

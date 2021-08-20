@@ -1,17 +1,15 @@
 package com.example.wgutscheduler.Utilities
 
-import android.content.Context
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+
+import androidx.annotation.VisibleForTesting
 import com.example.wgutscheduler.DB.DataBase
-import com.example.wgutscheduler.DB.DataBase.Companion.getInstance
 import com.example.wgutscheduler.Entity.Assessment
 import com.example.wgutscheduler.Entity.Course
 import com.example.wgutscheduler.Entity.CourseMentor
 import com.example.wgutscheduler.Entity.Term
 import java.util.*
 
-class AddSampleData : AppCompatActivity() {
+class AddSampleData(val db : DataBase) {
     private var tempTerm1 = Term()
     private var tempTerm2 = Term()
     private var tempTerm3 = Term()
@@ -22,9 +20,7 @@ class AddSampleData : AppCompatActivity() {
     private var tempCourse4 = Course()
     private var tempAssessment1 = Assessment()
     private var tempCourseMentor1 = CourseMentor()
-    var db: DataBase? = null
-    fun populate(context: Context?) {
-        db = getInstance(context!!)
+    fun populate() {
         try {
             insertTerms()
             insertCourses()
@@ -32,11 +28,11 @@ class AddSampleData : AppCompatActivity() {
             insertCourseMentors()
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.d(LOG_TAG, "Populate DB failed")
+            println("Populate DB failed")
         }
     }
-
-    private fun insertTerms() {
+    @VisibleForTesting
+     fun insertTerms() {
         var start: Calendar = Calendar.getInstance()
         var end: Calendar = Calendar.getInstance()
         start.add(Calendar.MONTH, -2)
@@ -69,11 +65,11 @@ class AddSampleData : AppCompatActivity() {
         tempTerm4.term_start = start.time
         tempTerm4.term_status = "Not Enrolled"
         tempTerm4.term_end = end.time
-        db!!.termDao()!!.insertAllTerms(tempTerm1, tempTerm2, tempTerm3, tempTerm4)
+        db.termDao()!!.insertAllTerms(listOf(tempTerm1, tempTerm2, tempTerm3, tempTerm4))
     }
 
     private fun insertCourses() {
-        val TermList = db!!.termDao()!!.termList ?: return
+        val TermList = db.termDao()!!.termList ?: return
         var start: Calendar = Calendar.getInstance()
         var end: Calendar = Calendar.getInstance()
         start.add(Calendar.MONTH, -2)
@@ -114,22 +110,22 @@ class AddSampleData : AppCompatActivity() {
         tempCourse4.course_status = "Passed"
         tempCourse4.course_notes = "Please add a note"
         tempCourse4.term_id_fk = TermList[0]!!.term_id
-        db!!.courseDao()!!.insertAllCourses(tempCourse1, tempCourse2, tempCourse3, tempCourse4)
+        db.courseDao()!!.insertAllCourses(tempCourse1, tempCourse2, tempCourse3, tempCourse4)
     }
 
     private fun insertCourseMentors() {
-        val TermList = db!!.termDao()!!.termList
-        val CourseList = db!!.courseDao()!!.getCourseList(TermList!![0]!!.term_id) ?: return
+        val TermList = db.termDao()!!.termList
+        val CourseList = db.courseDao()!!.getCourseList(TermList!![0]!!.term_id) ?: return
         tempCourseMentor1.mentor_name = "Carolyn Sher-DeCusatis"
         tempCourseMentor1.mentor_email = "carolyn@wgu.edu"
         tempCourseMentor1.mentor_phone = "385-528-1197"
-        tempCourseMentor1.course_id_fk = CourseList[0]!!.course_id
-        db!!.MentorDao()!!.insertAllCourseMentors(tempCourseMentor1)
+        tempCourseMentor1.course_id_fk = CourseList[0].course_id
+        db.MentorDao()!!.insertAllCourseMentors(tempCourseMentor1)
     }
 
     private fun insertAssessments() {
-        val TermList = db!!.termDao()!!.termList
-        val CourseList = db!!.courseDao()!!.getCourseList(TermList!![0]!!.term_id) ?: return
+        val TermList = db.termDao()!!.termList
+        val CourseList = db.courseDao()!!.getCourseList(TermList!![0]!!.term_id) ?: return
         val start: Calendar = Calendar.getInstance()
         val end: Calendar = Calendar.getInstance()
         start.add(Calendar.MONTH, -2)
@@ -137,9 +133,9 @@ class AddSampleData : AppCompatActivity() {
         tempAssessment1.assessment_name = "Software Assessment 1"
         tempAssessment1.assessment_due_date = start.time
         tempAssessment1.assessment_type = "Objective"
-        tempAssessment1.course_id_fk = CourseList[0]!!.course_id
+        tempAssessment1.course_id_fk = CourseList[0].course_id
         tempAssessment1.assessment_status = "Pending"
-        db!!.assessmentDao()!!.insertAllAssessments(tempAssessment1)
+        db.assessmentDao()!!.insertAllAssessments(tempAssessment1)
     }
 
     companion object {

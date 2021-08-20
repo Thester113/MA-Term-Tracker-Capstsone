@@ -22,7 +22,7 @@ interface TermDAO {
     fun insertTerm(term: Term?)
 
     @Insert
-    fun insertAllTerms(vararg term: Term?)
+    fun insertAllTerms(term: List<Term>)
 
     @Update
     fun updateTerm(term: Term?)
