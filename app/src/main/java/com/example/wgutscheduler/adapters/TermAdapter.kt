@@ -37,14 +37,11 @@ import com.example.wgutscheduler.R
         val DIFF_CALLBACK: DiffUtil.ItemCallback<Term> = object : DiffUtil.ItemCallback<Term>() {
             override fun areItemsTheSame(
                     oldTerm: Term, newTerm: Term): Boolean {
-                // Term properties may have changed if reloaded from the DB, but ID is fixed
                 return oldTerm.term_id == newTerm.term_id
             }
 
             override fun areContentsTheSame(
                     oldTerm: Term, newTerm: Term): Boolean {
-                // NOTE: if you use equals, your object must properly override Object#equals()
-                // Incorrectly returning false here will result in too many animations.
                 return oldTerm.term_name == newTerm.term_name
             }
         }

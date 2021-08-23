@@ -2,6 +2,7 @@ package com.example.wgutscheduler.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.TextView
 import com.example.wgutscheduler.DB.DataBase
 import com.example.wgutscheduler.Entity.Assessment
@@ -20,6 +21,7 @@ class ReportsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reports)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         db = DataBase.getInstance(applicationContext)!!
         report = findViewById(R.id.Report)
         val termId = intent.getIntExtra("termID", -1)
@@ -101,5 +103,12 @@ class ReportsActivity : AppCompatActivity() {
             val assessment: List<Assessment>
     )
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 }

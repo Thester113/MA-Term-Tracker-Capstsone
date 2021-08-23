@@ -40,14 +40,11 @@ class AssessmentAdapter (private val layoutInflater: LayoutInflater) : ListAdapt
         val DIFF_CALLBACK: DiffUtil.ItemCallback<Assessment> = object : DiffUtil.ItemCallback<Assessment>() {
             override fun areItemsTheSame(
                     oldAssessment: Assessment, newAssessment: Assessment): Boolean {
-                // Assessment properties may have changed if reloaded from the DB, but ID is fixed
                 return oldAssessment.assessment_id == newAssessment.assessment_id
             }
 
             override fun areContentsTheSame(
                     oldAssessment: Assessment, newAssessment: Assessment): Boolean {
-                // NOTE: if you use equals, your object must properly override Object#equals()
-                // Incorrectly returning false here will result in too many animations.
                 return oldAssessment.assessment_name == newAssessment.assessment_name
             }
         }

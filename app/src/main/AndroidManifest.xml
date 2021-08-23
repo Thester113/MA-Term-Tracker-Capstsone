@@ -17,7 +17,8 @@
         </activity>
         <activity
             android:name=".Activity.SearchActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".Activity.MainPage"/>
 
         <receiver
             android:name=".Utilities.Notifications"

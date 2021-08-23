@@ -12,7 +12,6 @@ import com.example.wgutscheduler.R
 import com.example.wgutscheduler.Utilities.hash
 
 
-
 class LoginActivity : AppCompatActivity() {
     lateinit var db: DataBase
     private lateinit var btnSubmit: Button
@@ -38,14 +37,24 @@ class LoginActivity : AppCompatActivity() {
             val userName = userName.text.toString()
             val password = etPassword.text.toString()
             val user = db.UserDao()?.getUser(userName = userName)
-            if (user != null && hash(password) == user.user_password) {
-                val intent = Intent(applicationContext, MainPage::class.java)
-                startActivity(intent)
-                finish()
+            try {
+                if (user != null && hash(password) == user.user_password) {
+                    val intent = Intent(applicationContext, MainPage::class.java)
+                    startActivity(intent)
+                    finish()
+                    Toast.makeText(this@LoginActivity, "$userName Login Successful", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this@LoginActivity, "$userName Login Failed. Please see Administrator for correct credentials.", Toast.LENGTH_LONG).show()
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+
 
             }
-            Toast.makeText(this@LoginActivity, userName, Toast.LENGTH_LONG).show()
+
         }
+
         btnReset.setOnClickListener {
             userName.setText("")
             etPassword.setText("")

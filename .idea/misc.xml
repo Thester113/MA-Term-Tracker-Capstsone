@@ -37,6 +37,7 @@
         <entry key="app/src/main/res/layout/item_search.xml" value="0.28802083333333334" />
         <entry key="app/src/main/res/menu/add_assessment.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/menu/add_course.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/add_mentor.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/menu/add_term.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/menu/edit_assessment.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/menu/edit_course.xml" value="0.21197916666666666" />

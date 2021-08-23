@@ -53,11 +53,11 @@ class EditMentor : AppCompatActivity() {
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
         }
-        setValues()
+
         updateMentorFAB.setOnClickListener {
             updateMentor()
             if (mentorUpdated) {
-                val intent = Intent(applicationContext, MentorDetails::class.java)
+                val intent = Intent(applicationContext, CourseDetails::class.java)
                 intent.putExtra("termID", termID)
                 intent.putExtra("courseID", courseID)
                 intent.putExtra("mentorID", mentorID)
@@ -65,7 +65,7 @@ class EditMentor : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
+        setValues()
     }
 
     private fun setValues() {
@@ -151,6 +151,7 @@ class EditMentor : AppCompatActivity() {
                 db.MentorDao()?.insertCourseInstructor(mentor)
 
             }
+
         }
         Toast.makeText(this, "$name has been updated", Toast.LENGTH_SHORT).show()
         mentorUpdated = true
@@ -185,7 +186,7 @@ class EditMentor : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.deleteMentorIC) {
             deleteMentor()
-            val intent = Intent(applicationContext, MentorDetails::class.java)
+            val intent = Intent(applicationContext, CourseDetails::class.java)
             intent.putExtra("termID", termID)
             intent.putExtra("courseID", courseID)
             startActivity(intent)

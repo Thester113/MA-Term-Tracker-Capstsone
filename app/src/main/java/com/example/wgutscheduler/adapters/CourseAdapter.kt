@@ -38,14 +38,12 @@ class CourseAdapter (private val layoutInflater: LayoutInflater) : ListAdapter<C
         val DIFF_CALLBACK: DiffUtil.ItemCallback<Course> = object : DiffUtil.ItemCallback<Course>() {
             override fun areItemsTheSame(
                     oldCourse: Course, newCourse: Course): Boolean {
-                // Course properties may have changed if reloaded from the DB, but ID is fixed
+
                 return oldCourse.course_id == newCourse.course_id
             }
 
             override fun areContentsTheSame(
                     oldCourse: Course, newCourse: Course): Boolean {
-                // NOTE: if you use equals, your object must properly override Object#equals()
-                // Incorrectly returning false here will result in too many animations.
                 return oldCourse.course_name == newCourse.course_name
             }
         }

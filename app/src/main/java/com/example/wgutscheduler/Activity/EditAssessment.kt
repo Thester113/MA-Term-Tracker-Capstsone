@@ -65,7 +65,7 @@ class EditAssessment : AppCompatActivity(), OnDateSetListener {
                 e.printStackTrace()
             }
             if (assessmentUpdated) {
-                val intent = Intent(applicationContext, AssessmentDetails::class.java)
+                val intent = Intent(applicationContext, CourseDetails::class.java)
                 intent.putExtra("termID", termID)
                 intent.putExtra("courseID", courseID)
                 intent.putExtra("assessmentID", assessmentID)
