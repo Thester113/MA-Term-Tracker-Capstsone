@@ -55,6 +55,7 @@ class EditMentor : AppCompatActivity() {
         }
 
         updateMentorFAB.setOnClickListener {
+            deleteMentor()
             updateMentor()
             if (mentorUpdated) {
                 val intent = Intent(applicationContext, CourseDetails::class.java)
@@ -159,20 +160,19 @@ class EditMentor : AppCompatActivity() {
 
 
     private fun deleteMentor() {
-        when (statusV) {
-            "Course Mentor" -> {
+        when (mentorType) {
+            "CourseMentor" -> {
                 db.MentorDao()?.deleteMentor(courseID, mentorID)
             }
-            "Program Mentor" -> {
+            "ProgramMentor" -> {
                 db.MentorDao()?.deleteProgramMentor(courseID, mentorID)
 
             }
-            "Course Instructor" -> {
+            "CourseInstructor" -> {
                 db.MentorDao()?.deleteCourseInstructor(courseID, mentorID)
 
             }
         }
-        Toast.makeText(this, "Mentor has been deleted", Toast.LENGTH_SHORT).show()
         mentorDeleted = true
 
     }
@@ -186,6 +186,7 @@ class EditMentor : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.deleteMentorIC) {
             deleteMentor()
+            Toast.makeText(this, "Mentor has been deleted", Toast.LENGTH_SHORT).show()
             val intent = Intent(applicationContext, CourseDetails::class.java)
             intent.putExtra("termID", termID)
             intent.putExtra("courseID", courseID)
